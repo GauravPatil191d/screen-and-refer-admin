@@ -1,65 +1,595 @@
-/* New Screening Container Styles */
+/* ============================================================
+   Health Worker — New Screening (Dynamic Questionnaire)
+   ============================================================ */
 
 .new-screening-wrap {
-  max-width: 896px;
+  width: 100%;
+  max-width: 920px;
   margin: 0 auto;
+  padding: 24px 20px 100px; /* bottom space for sticky bar */
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding-bottom: 64px;
+  gap: 20px;
+  animation: nsFade 0.28s ease both;
 }
 
-.patient-info-summary-card {
+.new-screening-wrap *,
+.new-screening-wrap *::before,
+.new-screening-wrap *::after {
+  box-sizing: border-box;
+}
+
+@keyframes nsFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Header row (back + title + draft status)
+   ------------------------------------------------------------ */
+.new-screening-wrap > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .new-screening-wrap > div:first-child {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.new-screening-wrap > div:first-child > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.new-screening-wrap > div:first-child > div:first-child > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 12px;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease;
+}
+
+.new-screening-wrap > div:first-child > div:first-child > a:hover {
+  background: #f1f6fc;
+  border-color: #c3d4ea;
+  color: #123b8c;
+}
+
+.new-screening-wrap h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: #172b4d;
+}
+
+.new-screening-wrap > div:first-child p {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.new-screening-wrap > div:first-child p .font-semibold {
+  font-weight: 700;
+  color: #123b8c;
+}
+
+/* Draft status cluster */
+.new-screening-wrap > div:first-child > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.new-screening-wrap > div:first-child > div:last-child > span {
+  font-size: 11.5px;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.new-screening-wrap > div:first-child > div:last-child > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 16px;
+  border-radius: 11px;
   background: #ffffff;
-  padding: 20px 24px;
-  border-radius: 18px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
+  border: 1px solid #d9e3f0;
+  color: #172b4d;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(23, 43, 77, 0.04);
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease;
+}
+
+.new-screening-wrap > div:first-child > div:last-child > button:hover:not(:disabled) {
+  background: #f1f6fc;
+  border-color: #c3d4ea;
+  color: #123b8c;
+}
+
+.new-screening-wrap > div:first-child > div:last-child > button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.new-screening-wrap > div:first-child > div:last-child > button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------
+   Patient info summary card
+   ------------------------------------------------------------ */
+.patient-info-summary-card {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 18px;
+  padding: 20px 24px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 5px 18px rgba(23, 43, 77, 0.05);
 }
 
+.patient-info-summary-card > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.patient-info-summary-card > div:first-child > div:first-child {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  color: #123b8c;
+  background: #edf4fe;
+}
+
+.patient-info-summary-card h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #172b4d;
+}
+
+.patient-info-summary-card > div:first-child > div:last-child > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.patient-info-summary-card strong {
+  color: #172b4d;
+  font-weight: 700;
+}
+
+/* Progress cluster */
+.patient-info-summary-card > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.patient-info-summary-card > div:last-child > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.patient-info-summary-card > div:last-child > div:first-child > span:first-child {
+  font-size: 12px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.patient-info-summary-card > div:last-child > div:first-child > span:last-child {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.patient-info-summary-card > div:last-child > div:last-child {
+  width: 84px;
+  height: 10px;
+  border-radius: 999px;
+  background: #e2eaf8;
+  overflow: hidden;
+}
+
+.patient-info-summary-card > div:last-child > div:last-child > div {
+  height: 100%;
+  background: #123b8c;
+  transition: width 0.3s ease;
+}
+
+/* ------------------------------------------------------------
+   Error banner
+   ------------------------------------------------------------ */
+.new-screening-wrap > .p-4 {
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   Question cards
+   ------------------------------------------------------------ */
 .screening-question-card {
   background: #ffffff;
-  border: 1px solid #D9E3F0;
-  border-radius: 18px;
-  padding: 24px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 5px 18px rgba(23, 43, 77, 0.05);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease,
+              background 0.18s ease;
 }
 
 .screening-question-card.active-unanswered {
-  border-color: #B4CEF0;
-  background: linear-gradient(to right, #ffffff, #F9FCFF);
+  border-color: #b4cef0;
+  background: linear-gradient(to right, #ffffff 0%, #f9fcff 100%);
+  box-shadow: 0 6px 22px rgba(18, 59, 140, 0.08);
 }
 
-.screening-pill-btn {
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  transition: all 0.2s ease;
+.screening-question-card > div {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
+  flex-direction: column;
+  gap: 16px;
 }
 
+@media (min-width: 640px) {
+  .screening-question-card > div {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.screening-question-card h3 {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #172b4d;
+  max-width: 560px;
+}
+
+/* Question number chip */
+.screening-question-card .w-6 {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #123b8c;
+  background: #edf4fe;
+}
+
+/* ------------------------------------------------------------
+   Yes / No pill buttons
+   ------------------------------------------------------------ */
+.screening-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 92px;
+  min-height: 42px;
+  padding: 0 20px;
+  border-radius: 11px;
+  font-size: 12.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
+}
+
+.screening-pill-btn:active {
+  transform: scale(0.98);
+}
+
+/* ------------------------------------------------------------
+   Derived-from-patient row
+   ------------------------------------------------------------ */
+.new-screening-wrap > .flex.flex-col > .bg-\[\#F8FAFD\] {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 22px;
+  background: #f8fafd;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+}
+
+@media (min-width: 640px) {
+  .new-screening-wrap > .flex.flex-col > .bg-\[\#F8FAFD\] {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.new-screening-wrap > .flex.flex-col > .bg-\[\#F8FAFD\] > div > span:first-child {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.new-screening-wrap > .flex.flex-col > .bg-\[\#F8FAFD\] > div > p {
+  margin: 6px 0 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #172b4d;
+}
+
+.new-screening-wrap > .flex.flex-col > .bg-\[\#F8FAFD\] > span:last-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border-radius: 9px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  font-size: 12px;
+  font-weight: 800;
+  color: #123b8c;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------
+   Disclaimer box
+   ------------------------------------------------------------ */
+.new-screening-wrap > .bg-\[\#EDF4FE\] {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #edf4fe;
+  border: 1px solid #d1e2fb;
+  border-radius: 14px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #123b8c;
+}
+
+.new-screening-wrap > .bg-\[\#EDF4FE\] strong {
+  font-weight: 800;
+}
+
+/* ------------------------------------------------------------
+   Sticky bottom action bar
+   ------------------------------------------------------------ */
 .screening-bottom-bar {
   position: sticky;
   bottom: 16px;
-  background: rgba(255, 255, 255, 0.95);
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.96);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
-  padding: 16px 24px;
-  border-radius: 18px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 16px 36px rgba(18, 59, 140, 0.14);
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 14px 32px rgba(18, 59, 140, 0.14);
+}
+
+@media (min-width: 640px) {
+  .screening-bottom-bar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.screening-bottom-bar > div:first-child {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #64748b;
+}
+
+.screening-bottom-bar > div:first-child .text-\[\#22C55E\] {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 700;
+  color: #22c55e;
+}
+
+.screening-bottom-bar > div:last-child {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  z-index: 20;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.screening-bottom-bar a,
+.screening-bottom-bar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              transform 0.12s ease, box-shadow 0.16s ease;
+}
+
+.screening-bottom-bar a {
+  color: #64748b;
+  background: transparent;
+}
+
+.screening-bottom-bar a:hover {
+  background: #f4f8fd;
+  color: #172b4d;
+}
+
+.screening-bottom-bar button {
+  background: #123b8c;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(18, 59, 140, 0.22);
+}
+
+.screening-bottom-bar button:hover:not(:disabled) {
+  background: #0b255c;
+}
+
+.screening-bottom-bar button:active:not(:disabled),
+.screening-bottom-bar a:active {
+  transform: translateY(1px);
+}
+
+.screening-bottom-bar button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------
+   Loading state
+   ------------------------------------------------------------ */
+.new-screening-wrap ~ .py-24,
+.new-screening-wrap .py-24 {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .new-screening-wrap {
+    padding: 16px 14px 96px;
+    gap: 16px;
+  }
+
+  .new-screening-wrap h1 {
+    font-size: 20px;
+  }
+
+  .patient-info-summary-card {
+    padding: 16px 18px;
+    gap: 14px;
+  }
+
+  .patient-info-summary-card > div:first-child > div:first-child {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+
+  .patient-info-summary-card > div:last-child {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .patient-info-summary-card > div:last-child > div:first-child {
+    align-items: flex-start;
+  }
+
+  .screening-question-card {
+    padding: 18px;
+  }
+
+  .screening-bottom-bar {
+    padding: 12px 14px;
+  }
+}
+
+@media (max-width: 560px) {
+  .new-screening-wrap > div:first-child > div:first-child > a {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .screening-pill-btn {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .screening-question-card > div > div:last-child {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .screening-bottom-bar > div:last-child {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .screening-bottom-bar a,
+  .screening-bottom-bar button {
+    width: 100%;
+  }
+}
+
+/* Fix for fixed positioning on small screens (keeps bar within viewport) */
+@media (max-width: 640px) {
+  .screening-bottom-bar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    border-radius: 14px;
+  }
 }

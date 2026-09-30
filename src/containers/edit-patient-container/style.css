@@ -1,57 +1,329 @@
-/* Edit Patient Container Styles */
+/* ============================================================
+   Health Worker — Edit Patient
+   ============================================================ */
 
 .edit-patient-wrap {
-  max-width: 768px;
+  width: 100%;
+  max-width: 840px;
   margin: 0 auto;
+  padding: 24px 20px 48px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
+  animation: epFade 0.28s ease both;
 }
 
+.edit-patient-wrap *,
+.edit-patient-wrap *::before,
+.edit-patient-wrap *::after {
+  box-sizing: border-box;
+}
+
+@keyframes epFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Header (back button + title)
+   ------------------------------------------------------------ */
+.edit-patient-wrap > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.edit-patient-wrap > div:first-child > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(23, 43, 77, 0.04);
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease;
+}
+
+.edit-patient-wrap > div:first-child > a:hover {
+  background: #f1f6fc;
+  border-color: #c3d4ea;
+  color: #123b8c;
+}
+
+.edit-patient-wrap h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: #172b4d;
+}
+
+.edit-patient-wrap > div:first-child p {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #64748b;
+  max-width: 620px;
+}
+
+/* ------------------------------------------------------------
+   Form card
+   ------------------------------------------------------------ */
 .edit-patient-card {
   background: #ffffff;
-  border-radius: 20px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
-  padding: 32px;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(23, 43, 77, 0.06);
+  padding: 28px;
 }
 
+@media (max-width: 640px) {
+  .edit-patient-card {
+    padding: 18px;
+    border-radius: 14px;
+  }
+}
+
+/* ------------------------------------------------------------
+   Error banner
+   ------------------------------------------------------------ */
+.edit-patient-card > .mb-6 {
+  margin-bottom: 22px;
+  padding: 14px 18px;
+  background: #fff0f2;
+  border: 1px solid #ffccd2;
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #dc3545;
+}
+
+/* ------------------------------------------------------------
+   Form layout
+   ------------------------------------------------------------ */
 .edit-patient-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 22px;
+}
+
+.edit-patient-form .grid {
+  display: grid;
+  gap: 18px;
+}
+
+.edit-patient-form .flex.flex-col {
+  gap: 6px;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------
+   Labels
+   ------------------------------------------------------------ */
+.edit-patient-form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.edit-patient-form label span {
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   Input wrappers with leading icons
+   ------------------------------------------------------------ */
+.edit-patient-form .relative {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.edit-patient-form .relative > svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   Inputs & selects
+   ------------------------------------------------------------ */
+.edit-patient-input,
+.edit-patient-select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #172b4d;
+  background: #f8fafd;
+  border: 1px solid #d9e3f0;
+  border-radius: 11px;
+  outline: none;
+  transition: border-color 0.16s ease, background 0.16s ease,
+              box-shadow 0.16s ease;
 }
 
 .edit-patient-input {
-  width: 100%;
-  padding: 10px 14px 10px 40px;
-  font-size: 0.875rem;
-  background: #F8FAFD;
-  border: 1px solid #D9E3F0;
-  border-radius: 12px;
-  color: #172B4D;
-  transition: all 0.2s ease;
+  padding-left: 42px;
 }
 
-.edit-patient-input:focus {
-  background: #ffffff;
-  border-color: #123B8C !important;
-  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.12) !important;
-  outline: none;
+.edit-patient-input::placeholder {
+  color: #94a3b8;
 }
 
-.edit-patient-select {
-  width: 100%;
-  padding: 10px 14px;
-  font-size: 0.875rem;
-  background: #F8FAFD;
-  border: 1px solid #D9E3F0;
-  border-radius: 12px;
-  color: #172B4D;
-}
-
+.edit-patient-input:focus,
 .edit-patient-select:focus {
   background: #ffffff;
-  border-color: #123B8C !important;
-  outline: none;
+  border-color: #123b8c;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.1);
+}
+
+/* Native date input — normalize height */
+.edit-patient-input[type="date"] {
+  padding-right: 12px;
+}
+
+.edit-patient-input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.16s ease;
+}
+
+.edit-patient-input[type="date"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
+}
+
+/* Select — custom chevron look */
+.edit-patient-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 38px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px 16px;
+}
+
+/* ------------------------------------------------------------
+   Action footer (Cancel + Save)
+   ------------------------------------------------------------ */
+.edit-patient-form > .flex.justify-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 4px;
+  padding-top: 20px;
+  border-top: 1px solid #e7eef8;
+}
+
+.edit-patient-form > .flex.justify-end > a,
+.edit-patient-form > .flex.justify-end > button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
+}
+
+.edit-patient-form > .flex.justify-end > a {
+  background: #f4f8fd;
+  color: #64748b;
+}
+
+.edit-patient-form > .flex.justify-end > a:hover {
+  background: #edf4fe;
+  color: #123b8c;
+}
+
+.edit-patient-form > .flex.justify-end > button {
+  background: #123b8c;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(18, 59, 140, 0.2);
+}
+
+.edit-patient-form > .flex.justify-end > button:hover:not(:disabled) {
+  background: #0b255c;
+}
+
+.edit-patient-form > .flex.justify-end > button:active:not(:disabled),
+.edit-patient-form > .flex.justify-end > a:active {
+  transform: translateY(1px);
+}
+
+.edit-patient-form > .flex.justify-end > button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .edit-patient-wrap {
+    padding: 16px 14px 36px;
+    gap: 18px;
+  }
+
+  .edit-patient-wrap h1 {
+    font-size: 21px;
+  }
+
+  .edit-patient-wrap > div:first-child p {
+    font-size: 12px;
+  }
+
+  .edit-patient-wrap > div:first-child > a {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .edit-patient-form {
+    gap: 20px;
+  }
+
+  .edit-patient-form .grid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .edit-patient-wrap > div:first-child {
+    align-items: flex-start;
+  }
+
+  .edit-patient-card {
+    padding: 16px;
+  }
+
+  .edit-patient-form > .flex.justify-end {
+    flex-direction: column-reverse;
+  }
+
+  .edit-patient-form > .flex.justify-end > a,
+  .edit-patient-form > .flex.justify-end > button {
+    width: 100%;
+  }
 }

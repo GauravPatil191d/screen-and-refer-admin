@@ -1,118 +1,383 @@
-/* Patient List Container Styles */
+/* ============================================================
+   Health Worker — Patient Directory
+   ============================================================ */
 
 .patient-list-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+  padding: 24px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: plFade 0.28s ease both;
 }
 
+.patient-list-wrap *,
+.patient-list-wrap *::before,
+.patient-list-wrap *::after {
+  box-sizing: border-box;
+}
+
+@keyframes plFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Header
+   ------------------------------------------------------------ */
 .patient-list-header {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 @media (min-width: 640px) {
   .patient-list-header {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 }
 
 .patient-list-title {
-  font-size: 1.65rem;
+  margin: 0;
+  font-size: 24px;
   font-weight: 800;
-  color: #172B4D;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: #172b4d;
 }
 
 .patient-list-desc {
-  font-size: 0.8rem;
-  color: #64748B;
-  margin-top: 2px;
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #64748b;
+  max-width: 640px;
 }
 
+/* ------------------------------------------------------------
+   Register button
+   ------------------------------------------------------------ */
 .patient-register-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 10px 18px;
-  background: #123B8C;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 11px;
+  background: #123b8c;
   color: #ffffff;
-  font-size: 0.825rem;
+  font-size: 13px;
   font-weight: 700;
-  border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(18, 59, 140, 0.25);
-  transition: all 0.2s ease;
+  line-height: 1;
   white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(18, 59, 140, 0.2);
+  transition: background 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
 }
 
 .patient-register-btn:hover {
-  background: #0B255C;
+  background: #0b255c;
   transform: translateY(-1px);
 }
 
-.patient-search-card {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 14px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
+.patient-register-btn:active {
+  transform: translateY(1px);
 }
 
+/* ------------------------------------------------------------
+   Search card
+   ------------------------------------------------------------ */
+.patient-search-card {
+  background: #ffffff;
+  padding: 16px 18px;
+  border: 1px solid #d9e3f0;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+}
+
+.patient-search-card form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.patient-search-card .relative {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.patient-search-card input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 42px;
+  font-size: 13.5px;
+  color: #172b4d;
+  background: #f8fafd;
+  border: 1px solid #d9e3f0;
+  border-radius: 11px;
+  outline: none;
+  transition: border-color 0.16s ease, background 0.16s ease,
+              box-shadow 0.16s ease;
+}
+
+.patient-search-card input::placeholder {
+  color: #94a3b8;
+}
+
+.patient-search-card input:focus {
+  background: #ffffff;
+  border-color: #123b8c;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.1);
+}
+
+.patient-search-card button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease;
+}
+
+/* ------------------------------------------------------------
+   Error notice
+   ------------------------------------------------------------ */
+.patient-list-wrap > .p-4 {
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   Table card
+   ------------------------------------------------------------ */
 .patient-table-card {
   background: #ffffff;
+  border: 1px solid #d9e3f0;
   border-radius: 16px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
   overflow: hidden;
+}
+
+.patient-table-card .overflow-x-auto {
+  width: 100%;
+  overflow-x: auto;
 }
 
 .patient-table {
   width: 100%;
+  min-width: 900px;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.875rem;
+  font-size: 13.5px;
 }
 
-.patient-table th {
-  padding: 14px 16px;
-  background: #F8FAFD;
-  color: #64748B;
-  font-size: 0.75rem;
-  font-weight: 700;
+.patient-table thead th {
+  padding: 13px 16px;
+  background: #f3f7fc;
+  border-bottom: 1px solid #d9e3f0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.55px;
   text-transform: uppercase;
-  border-bottom: 1px solid #D9E3F0;
+  color: #64748b;
+  white-space: nowrap;
 }
 
-.patient-table td {
+.patient-table tbody td {
   padding: 14px 16px;
-  border-bottom: 1px solid #D9E3F0;
-  color: #172B4D;
+  border-bottom: 1px solid #edf2f9;
+  color: #172b4d;
+  vertical-align: middle;
 }
 
-.patient-table tr:hover td {
-  background: #F4F8FD;
+.patient-table tbody tr:last-child td {
+  border-bottom: none;
 }
 
+.patient-table tbody tr {
+  transition: background 0.14s ease;
+}
+
+.patient-table tbody tr:hover td {
+  background: #f6fafe;
+}
+
+.patient-table .text-right {
+  text-align: right;
+}
+
+/* Row action buttons */
+.patient-table td a,
+.patient-table td button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease;
+}
+
+.patient-table td a:active,
+.patient-table td button:active {
+  transform: translateY(1px);
+}
+
+.patient-table td button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Icon-only action buttons get square dimensions */
+.patient-table td a[title="View Details"],
+.patient-table td a[title="Edit Patient"],
+.patient-table td button[title="Delete Patient"] {
+  width: 34px;
+  padding: 0;
+}
+
+/* ------------------------------------------------------------
+   Pagination
+   ------------------------------------------------------------ */
 .patient-pagination {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px 24px;
-  border-top: 1px solid #D9E3F0;
-  background: #F8FAFD;
-  font-size: 0.775rem;
-  color: #64748B;
+  padding: 14px 20px;
+  background: #f8fafd;
+  border-top: 1px solid #e7eef8;
+  font-size: 12.5px;
+  color: #64748b;
 }
 
 @media (min-width: 640px) {
   .patient-pagination {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.patient-pagination strong {
+  color: #172b4d;
+  font-weight: 700;
+}
+
+.patient-pagination > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.patient-pagination button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 9px;
+  color: #172b4d;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease,
+              opacity 0.16s ease;
+}
+
+.patient-pagination button:hover:not(:disabled) {
+  background: #eef4fc;
+  border-color: #c3d4ea;
+}
+
+.patient-pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.patient-pagination span.font-semibold {
+  min-width: 62px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .patient-list-wrap {
+    padding: 16px 14px 32px;
+    gap: 16px;
+  }
+
+  .patient-list-title {
+    font-size: 21px;
+  }
+
+  .patient-list-desc {
+    font-size: 12px;
+  }
+
+  .patient-register-btn {
+    width: 100%;
+  }
+
+  .patient-search-card {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 640px) {
+  .patient-search-card form {
+    flex-wrap: wrap;
+  }
+
+  .patient-search-card .relative {
+    flex: 1 1 100%;
+  }
+
+  .patient-search-card button {
+    flex: 1 1 auto;
+  }
+
+  .patient-table-card {
+    padding: 0;
+  }
+
+  .patient-pagination {
+    padding: 14px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .patient-pagination > div {
+    justify-content: center;
   }
 }

@@ -1,0 +1,293 @@
+/* ============================================================
+   Health Worker — Screenings Directory
+   ============================================================ */
+
+.health-worker-screenings-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: hwsFade 0.28s ease both;
+}
+
+.health-worker-screenings-container *,
+.health-worker-screenings-container *::before,
+.health-worker-screenings-container *::after {
+  box-sizing: border-box;
+}
+
+@keyframes hwsFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Header row (title + CTA)
+   ------------------------------------------------------------ */
+.health-worker-screenings-container > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .health-worker-screenings-container > div:first-child {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.health-worker-screenings-container > div:first-child h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: #172b4d;
+}
+
+.health-worker-screenings-container > div:first-child p {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #64748b;
+}
+
+/* Header CTA button */
+.health-worker-screenings-container > div:first-child > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 11px;
+  background: #123b8c;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(18, 59, 140, 0.2);
+  transition: background 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
+}
+
+.health-worker-screenings-container > div:first-child > a:hover {
+  background: #0b255c;
+  transform: translateY(-1px);
+}
+
+.health-worker-screenings-container > div:first-child > a:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Search card
+   ------------------------------------------------------------ */
+.health-worker-screenings-container > .bg-white:not(:has(table)) {
+  padding: 16px 18px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+}
+
+.health-worker-screenings-container .relative {
+  position: relative;
+  width: 100%;
+}
+
+.health-worker-screenings-container .relative > svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.health-worker-screenings-container input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 16px 0 42px;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #172b4d;
+  background: #f8fafd;
+  border: 1px solid #d9e3f0;
+  border-radius: 11px;
+  outline: none;
+  transition: border-color 0.16s ease, background 0.16s ease,
+              box-shadow 0.16s ease;
+}
+
+.health-worker-screenings-container input::placeholder {
+  color: #94a3b8;
+}
+
+.health-worker-screenings-container input:focus {
+  background: #ffffff;
+  border-color: #123b8c;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.1);
+}
+
+/* ------------------------------------------------------------
+   Table card
+   ------------------------------------------------------------ */
+.health-worker-screenings-container > .bg-white.p-6 {
+  padding: 22px 24px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+  overflow: hidden;
+}
+
+.health-worker-screenings-container > .bg-white.p-6 h2 {
+  margin: 0 0 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e7eef8;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.1px;
+  color: #172b4d;
+}
+
+/* ------------------------------------------------------------
+   Table
+   ------------------------------------------------------------ */
+.health-worker-screenings-container .overflow-x-auto {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.health-worker-screenings-container table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13.5px;
+}
+
+.health-worker-screenings-container thead th {
+  padding: 13px 16px;
+  background: #f3f7fc;
+  border-bottom: 1px solid #d9e3f0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.health-worker-screenings-container tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #edf2f9;
+  color: #172b4d;
+  vertical-align: middle;
+}
+
+.health-worker-screenings-container tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.health-worker-screenings-container tbody tr {
+  transition: background 0.14s ease;
+}
+
+.health-worker-screenings-container tbody tr:hover td {
+  background: #f6fafe;
+}
+
+/* Row CTA button */
+.health-worker-screenings-container tbody a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 9px;
+  background: #123b8c;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 3px 10px rgba(18, 59, 140, 0.18);
+  transition: background 0.16s ease, transform 0.12s ease;
+}
+
+.health-worker-screenings-container tbody a:hover {
+  background: #0b255c;
+}
+
+.health-worker-screenings-container tbody a:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Loading / empty states
+   ------------------------------------------------------------ */
+.health-worker-screenings-container .py-16,
+.health-worker-screenings-container .py-12 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 56px 20px;
+  text-align: center;
+  color: #64748b;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .health-worker-screenings-container {
+    padding: 16px 14px 32px;
+    gap: 16px;
+  }
+
+  .health-worker-screenings-container > div:first-child h1 {
+    font-size: 21px;
+  }
+
+  .health-worker-screenings-container > div:first-child > a {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .health-worker-screenings-container > .bg-white.p-6 {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .health-worker-screenings-container {
+    padding: 12px 12px 28px;
+    gap: 14px;
+  }
+
+  .health-worker-screenings-container > .bg-white:not(:has(table)) {
+    padding: 14px;
+  }
+
+  .health-worker-screenings-container > .bg-white.p-6 {
+    padding: 16px;
+  }
+
+  .health-worker-screenings-container thead th,
+  .health-worker-screenings-container tbody td {
+    padding: 12px 14px;
+  }
+}

@@ -1,209 +1,446 @@
-/* Health Worker Dashboard Container Styles */
+/* ============================================================
+   Health Worker Dashboard
+   ============================================================ */
 
 .hw-dashboard-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-}
-
-.hw-hero-card {
-  background: linear-gradient(135deg, #123B8C 0%, #1A4EB5 50%, #0B255C 100%);
-  border-radius: 20px;
-  padding: 28px 32px;
-  color: #ffffff;
-  box-shadow: 0 10px 25px rgba(18, 59, 140, 0.18);
+  padding: 24px 20px 40px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 22px;
+  animation: hwFade 0.28s ease both;
+}
+
+.hw-dashboard-wrap *,
+.hw-dashboard-wrap *::before,
+.hw-dashboard-wrap *::after {
+  box-sizing: border-box;
+}
+
+@keyframes hwFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Hero / Welcome banner
+   ------------------------------------------------------------ */
+.hw-hero-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 30px 34px;
+  border-radius: 18px;
+  color: #ffffff;
+  background: linear-gradient(115deg, #123b8c 0%, #1753a6 62%, #117c91 100%);
+  box-shadow: 0 14px 30px rgba(18, 59, 140, 0.18);
+  overflow: hidden;
+}
+
+.hw-hero-card::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -70px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.hw-hero-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 768px) {
   .hw-hero-card {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 }
 
 .hw-badge-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 12px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 9999px;
-  font-size: 0.75rem;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 11.5px;
   font-weight: 700;
-  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+  margin-bottom: 12px;
 }
 
 .hw-hero-title {
-  font-size: 1.65rem;
+  margin: 0;
+  font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
 }
 
 .hw-hero-desc {
-  font-size: 0.875rem;
-  color: #e2eaf8;
-  margin-top: 4px;
+  margin: 8px 0 0;
   max-width: 580px;
-  line-height: 1.5;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(226, 234, 248, 0.95);
 }
 
+/* ------------------------------------------------------------
+   Hero CTA button
+   ------------------------------------------------------------ */
 .hw-hero-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 22px;
-  background: #16B8D4;
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 0.875rem;
+  min-height: 46px;
+  padding: 0 22px;
   border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(22, 184, 212, 0.35);
-  transition: all 0.2s ease;
+  background: #13afc2;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
   white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(9, 35, 70, 0.22);
+  transition: background 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
 }
 
 .hw-hero-btn:hover {
-  background: #14B8A6;
+  background: #0f97a8;
   transform: translateY(-1px);
 }
 
-/* Stats Grid */
+.hw-hero-btn:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   KPI stats grid
+   ------------------------------------------------------------ */
 .hw-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
 }
 
 .hw-stat-card {
-  background: #ffffff;
-  padding: 20px;
-  border-radius: 16px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all 0.2s ease;
+  gap: 14px;
+  min-height: 124px;
+  padding: 20px 22px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+  transition: box-shadow 0.18s ease, transform 0.18s ease,
+              border-color 0.18s ease;
 }
 
 .hw-stat-card:hover {
-  border-color: #B4CEF0;
-  box-shadow: 0 6px 18px rgba(18, 59, 140, 0.08);
+  border-color: #b4cef0;
+  box-shadow: 0 10px 24px rgba(18, 59, 140, 0.09);
+  transform: translateY(-1px);
+}
+
+.hw-stat-card > div:first-child {
+  min-width: 0;
 }
 
 .hw-stat-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #64748B;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #64748b;
 }
 
 .hw-stat-val {
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #172B4D;
-  margin-top: 4px;
   display: block;
+  margin-top: 6px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #172b4d;
 }
 
 .hw-stat-sub {
-  font-size: 0.75rem;
-  font-weight: 500;
-  margin-top: 2px;
   display: block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  font-weight: 500;
 }
 
 .hw-stat-icon-wrap {
+  flex-shrink: 0;
   width: 48px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: 13px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Table Section */
+/* ------------------------------------------------------------
+   Recent patients table card
+   ------------------------------------------------------------ */
 .hw-table-card {
   background: #ffffff;
+  border: 1px solid #d9e3f0;
   border-radius: 16px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
-  padding: 24px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+  padding: 22px 24px;
+  overflow: hidden;
 }
 
 .hw-table-header {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #D9E3F0;
+  border-bottom: 1px solid #e7eef8;
 }
 
 @media (min-width: 640px) {
   .hw-table-header {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 }
 
 .hw-table-title {
-  font-size: 1.15rem;
+  margin: 0;
+  font-size: 17px;
   font-weight: 800;
-  color: #172B4D;
+  color: #172b4d;
 }
 
 .hw-table-sub {
-  font-size: 0.8rem;
-  color: #64748B;
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: #64748b;
 }
 
 .hw-table-link {
-  font-size: 0.775rem;
-  font-weight: 700;
-  color: #123B8C;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #123b8c;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.16s ease;
 }
 
 .hw-table-link:hover {
+  color: #0b255c;
   text-decoration: underline;
 }
 
+/* ------------------------------------------------------------
+   Table
+   ------------------------------------------------------------ */
 .hw-custom-table {
   width: 100%;
+  min-width: 680px;
+  margin-top: 16px;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.875rem;
-  margin-top: 16px;
+  font-size: 13.5px;
 }
 
-.hw-custom-table th {
+.hw-custom-table thead th {
   padding: 12px 16px;
-  background: #F8FAFD;
-  color: #64748B;
-  font-size: 0.75rem;
-  font-weight: 700;
+  background: #f3f7fc;
+  border-bottom: 1px solid #d9e3f0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.55px;
   text-transform: uppercase;
-  border-bottom: 1px solid #D9E3F0;
+  color: #64748b;
+  white-space: nowrap;
 }
 
-.hw-custom-table td {
+.hw-custom-table tbody td {
   padding: 14px 16px;
-  border-bottom: 1px solid #D9E3F0;
-  color: #172B4D;
+  border-bottom: 1px solid #edf2f9;
+  color: #172b4d;
+  vertical-align: middle;
 }
 
-.hw-custom-table tr:hover td {
-  background: #F4F8FD;
+.hw-custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.hw-custom-table tbody tr {
+  transition: background 0.14s ease;
+}
+
+.hw-custom-table tbody tr:hover td {
+  background: #f6fafe;
+}
+
+.hw-custom-table td.text-right,
+.hw-custom-table th.text-right {
+  text-align: right;
+}
+
+/* Row action links */
+.hw-custom-table td a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 0 13px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease;
+}
+
+.hw-custom-table td a:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Empty / loading states
+   ------------------------------------------------------------ */
+.hw-dashboard-wrap .py-12 {
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 1024px) {
+  .hw-stats-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .hw-dashboard-wrap {
+    padding: 16px 14px 32px;
+    gap: 16px;
+  }
+
+  .hw-hero-card {
+    padding: 22px 20px;
+    gap: 16px;
+    border-radius: 16px;
+  }
+
+  .hw-hero-title {
+    font-size: 21px;
+  }
+
+  .hw-hero-desc {
+    font-size: 12.5px;
+  }
+
+  .hw-hero-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hw-stats-grid {
+    gap: 12px;
+  }
+
+  .hw-stat-card {
+    min-height: 108px;
+    padding: 16px 18px;
+  }
+
+  .hw-stat-val {
+    font-size: 22px;
+  }
+
+  .hw-stat-icon-wrap {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .hw-table-card {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 560px) {
+  .hw-hero-card {
+    padding: 20px 18px;
+  }
+
+  .hw-hero-title {
+    font-size: 19px;
+  }
+
+  .hw-badge-pill {
+    font-size: 11px;
+    padding: 5px 11px;
+  }
+
+  .hw-stats-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .hw-stat-card {
+    min-height: 96px;
+    padding: 14px 16px;
+  }
+
+  .hw-stat-val {
+    font-size: 20px;
+  }
+
+  .hw-stat-icon-wrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+
+  .hw-stat-icon-wrap svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .hw-table-card {
+    padding: 16px;
+  }
+
+  .hw-table-link {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 380px) {
+  .hw-hero-btn {
+    font-size: 12.5px;
+    padding: 0 16px;
+  }
 }

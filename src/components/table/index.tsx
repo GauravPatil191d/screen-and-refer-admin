@@ -38,10 +38,10 @@ export function Table<T>({
   return (
     <div className={`hexar-table-card ${className}`}>
       {(title || actions) && (
-        <div className="hexar-table-header flex justify-between items-center px-6 py-4 border-b border-white/10">
+        <div className="hexar-table-header flex justify-between items-center">
           <div>
-            {title && <h3 className="hexar-table-title text-lg font-bold text-white">{title}</h3>}
-            {subtitle && <p className="hexar-table-subtitle text-xs text-gray-400 mt-0.5">{subtitle}</p>}
+            {title && <h3 className="hexar-table-title font-bold">{title}</h3>}
+            {subtitle && <p className="hexar-table-subtitle text-xs mt-1">{subtitle}</p>}
           </div>
           {actions && <div className="hexar-table-actions">{actions}</div>}
         </div>
@@ -86,7 +86,7 @@ export function Table<T>({
                 <td colSpan={columns.length}>
                   <div className="hexar-table-empty">
                     <div className="hexar-empty-icon-wrapper">
-                      <Inbox className="w-8 h-8 text-indigo-400" />
+                      <Inbox className="w-8 h-8 text-[#123B8C]" />
                     </div>
                     <div className="hexar-empty-text">{emptyText}</div>
                     {emptySubtext && <div className="hexar-empty-subtext">{emptySubtext}</div>}

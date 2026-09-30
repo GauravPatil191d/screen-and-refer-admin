@@ -1,0 +1,773 @@
+/* ============================================================
+   Doctor Dashboard
+   ============================================================ */
+
+.doctor-dashboard-container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: ddFadeIn 0.3s ease both;
+}
+
+.doctor-dashboard-container *,
+.doctor-dashboard-container *::before,
+.doctor-dashboard-container *::after {
+  box-sizing: border-box;
+}
+
+@keyframes ddFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ------------------------------------------------------------
+   Banner
+   ------------------------------------------------------------ */
+.dd-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 30px 34px;
+  border-radius: 18px;
+  color: #ffffff;
+  background: linear-gradient(115deg, #123b8c 0%, #1753a6 62%, #117c91 100%);
+  box-shadow: 0 14px 30px rgba(18, 59, 140, 0.18);
+  overflow: hidden;
+}
+
+.dd-banner::after {
+  content: "";
+  position: absolute;
+  right: -80px;
+  top: -80px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.dd-banner-content {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+}
+
+.dd-banner-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin-bottom: 12px;
+}
+
+.dd-banner-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.dd-banner-desc {
+  margin: 8px 0 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgba(219, 234, 254, 0.95);
+}
+
+.dd-banner-stat {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+  min-width: 152px;
+  padding: 14px 22px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.11);
+  text-align: center;
+}
+
+.dd-banner-stat-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: rgba(219, 234, 254, 0.9);
+}
+
+.dd-banner-stat-value {
+  display: block;
+  margin-top: 4px;
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+/* ------------------------------------------------------------
+   Metric cards
+   ------------------------------------------------------------ */
+.dd-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.dd-metric-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 122px;
+  padding: 20px 22px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+
+.dd-metric-card:hover {
+  box-shadow: 0 10px 24px rgba(23, 43, 77, 0.09);
+  transform: translateY(-1px);
+}
+
+.dd-metric-body {
+  min-width: 0;
+}
+
+.dd-metric-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.dd-metric-value {
+  display: block;
+  margin-top: 6px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #172b4d;
+}
+
+.dd-metric-value--pending {
+  color: #f59e0b;
+}
+.dd-metric-value--high {
+  color: #dc3545;
+}
+.dd-metric-value--ok {
+  color: #22c55e;
+}
+
+.dd-metric-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #64748b;
+}
+.dd-metric-hint--high {
+  color: #dc3545;
+}
+.dd-metric-hint--ok {
+  color: #22c55e;
+}
+
+.dd-metric-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dd-metric-icon--pending {
+  background: #fff8e6;
+  color: #f59e0b;
+}
+.dd-metric-icon--high {
+  background: #fff0f2;
+  color: #dc3545;
+}
+.dd-metric-icon--ok {
+  background: #ebfbf0;
+  color: #22c55e;
+}
+
+/* ------------------------------------------------------------
+   Toolbar (search + filters)
+   ------------------------------------------------------------ */
+.dd-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 18px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+}
+
+.dd-search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 340px;
+  min-width: 0;
+}
+
+.dd-search-field {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dd-search-field > svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+}
+
+.dd-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 42px;
+  font-size: 13.5px;
+  color: #172b4d;
+  background: #f8fafd;
+  border: 1px solid #d9e3f0;
+  border-radius: 11px;
+  outline: none;
+  transition: border-color 0.16s ease, background 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.dd-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.dd-search-input:focus {
+  background: #ffffff;
+  border-color: #123b8c;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.1);
+}
+
+/* ---------------- Buttons ---------------- */
+.dd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.16s ease, box-shadow 0.16s ease,
+    transform 0.16s ease;
+}
+
+.dd-btn--primary {
+  background: #123b8c;
+  color: #ffffff;
+  box-shadow: 0 6px 14px rgba(18, 59, 140, 0.18);
+}
+
+.dd-btn--primary:hover {
+  background: #0b255c;
+}
+
+.dd-btn--primary:active {
+  transform: translateY(1px);
+}
+
+/* ---------------- Filters ---------------- */
+.dd-filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dd-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-filter-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.dd-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dd-select {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 44px;
+  min-width: 148px;
+  padding: 0 36px 0 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #172b4d;
+  background: #f8fafd;
+  border: 1px solid #d9e3f0;
+  border-radius: 11px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.16s ease, background 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+.dd-select:focus {
+  background: #ffffff;
+  border-color: #123b8c;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.1);
+}
+
+.dd-select-chevron {
+  position: absolute;
+  right: 12px;
+  color: #64748b;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   Error banner
+   ------------------------------------------------------------ */
+.dd-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: #fff0f2;
+  border: 1px solid #ffccd2;
+  border-radius: 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #dc3545;
+}
+
+/* ------------------------------------------------------------
+   Table card
+   ------------------------------------------------------------ */
+.dd-table-card {
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgba(23, 43, 77, 0.05);
+  overflow: hidden;
+}
+
+.dd-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 72px 20px;
+  text-align: center;
+}
+
+.dd-state-icon {
+  color: #94a3b8;
+}
+
+.dd-state-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.dd-state-text {
+  margin: 0;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.dd-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid #d9e3f0;
+  border-top-color: #123b8c;
+  animation: ddSpin 0.7s linear infinite;
+}
+
+@keyframes ddSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dd-table-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.dd-table {
+  width: 100%;
+  min-width: 960px;
+  border-collapse: collapse;
+}
+
+.dd-table thead th {
+  padding: 14px 18px;
+  background: #f8fafd;
+  border-bottom: 1px solid #d9e3f0;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #64748b;
+  white-space: nowrap;
+}
+
+.dd-table tbody td {
+  padding: 16px 18px;
+  font-size: 13px;
+  color: #172b4d;
+  vertical-align: middle;
+  border-bottom: 1px solid #edf2f9;
+}
+
+.dd-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.dd-table tbody tr {
+  transition: background 0.14s ease;
+}
+
+.dd-table tbody tr:hover {
+  background: #f6fafe;
+}
+
+.dd-col-right {
+  text-align: right;
+}
+
+.dd-cell-name {
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.dd-cell-id {
+  margin-top: 3px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.dd-cell-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.dd-cell-strong {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #172b4d;
+}
+
+.dd-cell-muted {
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+/* ---------------- Badges ---------------- */
+.dd-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  white-space: nowrap;
+}
+
+.dd-badge--high {
+  background: #fff0f2;
+  color: #dc3545;
+  border-color: #ffccd2;
+}
+
+.dd-badge--medium {
+  background: #fff8e6;
+  color: #d97706;
+  border-color: #ffe5a3;
+}
+
+.dd-badge--low {
+  background: #ebfbf0;
+  color: #22c55e;
+  border-color: #c4f1d0;
+}
+
+/* ---------------- Review status ---------------- */
+.dd-review {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.dd-review--done {
+  color: #22c55e;
+}
+
+.dd-review--pending {
+  color: #f59e0b;
+}
+
+/* ---------------- Row action ---------------- */
+.dd-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 38px;
+  padding: 0 16px;
+  background: #123b8c;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(18, 59, 140, 0.18);
+  transition: background 0.16s ease, transform 0.16s ease;
+}
+
+.dd-action-btn:hover {
+  background: #0b255c;
+}
+
+.dd-action-btn:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Pagination
+   ------------------------------------------------------------ */
+.dd-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 16px 22px;
+  background: #f8fafd;
+  border-top: 1px solid #d9e3f0;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.dd-pagination-info strong {
+  color: #172b4d;
+  font-weight: 700;
+}
+
+.dd-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dd-page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 10px;
+  color: #172b4d;
+  cursor: pointer;
+  transition: background 0.16s ease, border-color 0.16s ease,
+    opacity 0.16s ease;
+}
+
+.dd-page-btn:hover:not(:disabled) {
+  background: #eef4fc;
+  border-color: #c3d4ea;
+}
+
+.dd-page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.dd-page-indicator {
+  min-width: 96px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 1024px) {
+  .dd-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .dd-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dd-search-form {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  .dd-filters {
+    width: 100%;
+  }
+
+  .dd-filter {
+    flex: 1 1 220px;
+  }
+
+  .dd-select-wrap {
+    flex: 1 1 auto;
+  }
+
+  .dd-select {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .doctor-dashboard-container {
+    padding: 16px 14px 32px;
+    gap: 16px;
+  }
+
+  .dd-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px 20px;
+    gap: 18px;
+  }
+
+  .dd-banner-title {
+    font-size: 21px;
+  }
+
+  .dd-banner-stat {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .dd-metrics {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .dd-metric-card {
+    min-height: 104px;
+    padding: 16px 18px;
+  }
+
+  .dd-metric-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 560px) {
+  .dd-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .dd-filter {
+    flex: 1 1 auto;
+    justify-content: space-between;
+  }
+
+  .dd-search-form {
+    flex-wrap: wrap;
+  }
+
+  .dd-search-field {
+    flex: 1 1 100%;
+  }
+
+  .dd-btn--primary {
+    width: 100%;
+  }
+
+  .dd-pagination {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 16px;
+  }
+
+  .dd-action-btn {
+    height: 36px;
+    padding: 0 13px;
+  }
+}

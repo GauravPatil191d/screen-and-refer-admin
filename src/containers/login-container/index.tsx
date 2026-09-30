@@ -119,59 +119,21 @@ export const LoginContainer: React.FC = () => {
           </div>
         </div>
 
-        {/* Stethoscope Illustration at bottom left */}
+        {/* ECG accent */}
         <div className="sr-stethoscope-wrap">
           <svg
             className="sr-stethoscope-svg"
-            viewBox="0 0 360 120"
+            viewBox="0 0 360 80"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <defs>
-              <linearGradient id="tubeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0891b2" />
-                <stop offset="50%" stopColor="#0284c7" />
-                <stop offset="100%" stopColor="#0369a1" />
-              </linearGradient>
-              <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#e2e8f0" />
-                <stop offset="50%" stopColor="#cbd5e1" />
-                <stop offset="100%" stopColor="#94a3b8" />
-              </linearGradient>
-            </defs>
             <path
-              d="M-20 60 C 60 110, 140 10, 220 80 C 240 95, 270 95, 290 85"
-              stroke="url(#tubeGrad)"
-              strokeWidth="14"
+              d="M0 42 H96 L112 42 L128 34 L143 55 L160 14 L178 58 L194 42 H360"
+              stroke="#73D8E8"
+              strokeWidth="3"
               strokeLinecap="round"
+              strokeLinejoin="round"
             />
-            <rect
-              x="285"
-              y="75"
-              width="20"
-              height="18"
-              rx="4"
-              fill="url(#metalGrad)"
-              transform="rotate(15 285 75)"
-            />
-            <ellipse
-              cx="315"
-              cy="90"
-              rx="22"
-              ry="16"
-              fill="url(#metalGrad)"
-              stroke="#64748b"
-              strokeWidth="2"
-            />
-            <ellipse
-              cx="315"
-              cy="90"
-              rx="14"
-              ry="9"
-              fill="#0f172a"
-              opacity="0.3"
-            />
-            <circle cx="315" cy="90" r="4" fill="#38bdf8" />
           </svg>
         </div>
       </div>
@@ -201,7 +163,7 @@ export const LoginContainer: React.FC = () => {
           <form onSubmit={handleSubmit} className="sr-form">
             <div className="sr-form-group">
               <label htmlFor="registered-mobile" className="sr-form-label">
-                User ID / Registered Mobile
+                Registered Mobile Number / User ID
               </label>
               <div className="sr-input-field-wrap">
                 <Smartphone className="sr-field-icon w-4.5 h-4.5" />
@@ -209,7 +171,7 @@ export const LoginContainer: React.FC = () => {
                   id="registered-mobile"
                   type="text"
                   className="sr-form-input"
-                  placeholder="Enter your user ID or mobile"
+                  placeholder="Enter your mobile number or user ID"
                   value={identifier}
                   onChange={(e) => {
                     setIdentifier(e.target.value);

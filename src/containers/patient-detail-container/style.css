@@ -1,56 +1,388 @@
-/* Patient Detail Container Styles */
+/* ============================================================
+   Health Worker — Patient Detail
+   ============================================================ */
 
 .patient-detail-wrap {
-  max-width: 896px;
+  width: 100%;
+  max-width: 920px;
   margin: 0 auto;
+  padding: 24px 20px 48px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
+  animation: pdFade 0.28s ease both;
 }
 
-.patient-detail-card {
-  background: #ffffff;
-  border-radius: 20px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
-  padding: 32px;
+.patient-detail-wrap *,
+.patient-detail-wrap *::before,
+.patient-detail-wrap *::after {
+  box-sizing: border-box;
 }
 
-.screening-banner-card {
-  background: linear-gradient(135deg, #123B8C 0%, #16B8D4 100%);
-  padding: 24px;
-  border-radius: 20px;
-  color: #ffffff;
-  box-shadow: 0 8px 24px rgba(18, 59, 140, 0.18);
+@keyframes pdFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Header row (back button + title + actions)
+   ------------------------------------------------------------ */
+.patient-detail-wrap > div:first-child {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: 16px;
+  flex-wrap: wrap;
+}
+
+.patient-detail-wrap > div:first-child > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* Back button */
+.patient-detail-wrap > div:first-child > div:first-child > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 12px;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease;
+}
+
+.patient-detail-wrap > div:first-child > div:first-child > a:hover {
+  background: #f1f6fc;
+  border-color: #c3d4ea;
+  color: #123b8c;
+}
+
+/* Title block */
+.patient-detail-wrap h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: #172b4d;
+  word-break: break-word;
+}
+
+.patient-detail-wrap > div:first-child p {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+/* Header action buttons (Edit / Delete) */
+.patient-detail-wrap > div:first-child > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.patient-detail-wrap > div:first-child > div:last-child > :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
+}
+
+.patient-detail-wrap > div:first-child > div:last-child > a {
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  color: #172b4d;
+  box-shadow: 0 2px 6px rgba(23, 43, 77, 0.04);
+}
+
+.patient-detail-wrap > div:first-child > div:last-child > a:hover {
+  background: #f1f6fc;
+  border-color: #c3d4ea;
+  color: #123b8c;
+}
+
+.patient-detail-wrap > div:first-child > div:last-child > button {
+  background: #fff0f2;
+  border: 1px solid #ffccd2;
+  color: #dc3545;
+}
+
+.patient-detail-wrap > div:first-child > div:last-child > button:hover:not(:disabled) {
+  background: #ffe4e8;
+  border-color: #ffb8c2;
+}
+
+.patient-detail-wrap > div:first-child > div:last-child > :is(a, button):active {
+  transform: translateY(1px);
+}
+
+.patient-detail-wrap > div:first-child > div:last-child > button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------
+   Screening banner
+   ------------------------------------------------------------ */
+.screening-banner-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 26px 30px;
+  border-radius: 16px;
+  color: #ffffff;
+  background: linear-gradient(115deg, #123b8c 0%, #1753a6 62%, #117c91 100%);
+  box-shadow: 0 12px 28px rgba(18, 59, 140, 0.18);
+  overflow: hidden;
+}
+
+.screening-banner-card::after {
+  content: "";
+  position: absolute;
+  right: -70px;
+  top: -70px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.screening-banner-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 @media (min-width: 640px) {
   .screening-banner-card {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 }
 
+.screening-banner-card h2 {
+  margin: 6px 0 0;
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+}
+
+.screening-banner-card p {
+  margin: 6px 0 0;
+  max-width: 520px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: rgba(219, 234, 254, 0.95);
+}
+
+.screening-banner-card > div:first-child > span {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: rgba(165, 243, 252, 0.95);
+}
+
+/* Screening CTA button */
 .screening-action-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  padding: 12px 24px;
-  background: #ffffff;
-  color: #123B8C;
-  font-weight: 800;
-  font-size: 0.875rem;
+  min-height: 46px;
+  padding: 0 24px;
   border-radius: 12px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  background: #ffffff;
+  color: #123b8c;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
   white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  transition: background 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
 }
 
 .screening-action-btn:hover {
-  background: #F4F8FD;
+  background: #f4f8fd;
   transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+}
+
+.screening-action-btn:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Demographics card
+   ------------------------------------------------------------ */
+.patient-detail-card {
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 16px;
+  box-shadow: 0 7px 22px rgba(23, 43, 77, 0.05);
+  padding: 26px 28px;
+}
+
+.patient-detail-card h2 {
+  margin: 0 0 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e7eef8;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.1px;
+  color: #172b4d;
+}
+
+/* Grid of detail items */
+.patient-detail-card .grid {
+  display: grid;
+  gap: 22px;
+}
+
+.patient-detail-card .grid > div {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.patient-detail-card .grid > div > div:first-child {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.patient-detail-card .grid > div > div:last-child {
+  min-width: 0;
+}
+
+.patient-detail-card .grid > div > div:last-child > span:first-child {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.patient-detail-card .grid > div > div:last-child > span:last-child {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: #172b4d;
+  word-break: break-word;
+}
+
+/* Footer meta line */
+.patient-detail-card > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #e7eef8;
+  font-size: 11.5px;
+  color: #64748b;
+}
+
+/* ------------------------------------------------------------
+   Loading / error states
+   ------------------------------------------------------------ */
+.patient-detail-wrap ~ .py-24,
+.patient-detail-wrap .py-24 {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .patient-detail-wrap {
+    padding: 16px 14px 36px;
+    gap: 18px;
+  }
+
+  .patient-detail-wrap h1 {
+    font-size: 20px;
+  }
+
+  .screening-banner-card {
+    padding: 22px 20px;
+    gap: 16px;
+  }
+
+  .screening-banner-card h2 {
+    font-size: 17px;
+  }
+
+  .patient-detail-card {
+    padding: 20px;
+  }
+
+  .patient-detail-card .grid {
+    gap: 18px;
+  }
+}
+
+@media (max-width: 640px) {
+  .patient-detail-wrap > div:first-child {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .patient-detail-wrap > div:first-child > div:first-child > a {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .patient-detail-wrap > div:first-child > div:last-child {
+    justify-content: flex-end;
+  }
+
+  .screening-action-btn {
+    width: 100%;
+  }
+
+  .patient-detail-card {
+    padding: 18px;
+  }
+
+  .patient-detail-card > div:last-child {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
 }

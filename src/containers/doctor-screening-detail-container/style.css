@@ -1,0 +1,358 @@
+/* ============================================================
+   Doctor — Screening Detail Screen
+   ============================================================ */
+
+.doctor-screening-detail-container {
+  width: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
+  padding: 24px 20px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: dsdFade 0.25s ease both;
+}
+
+.doctor-screening-detail-container *,
+.doctor-screening-detail-container *::before,
+.doctor-screening-detail-container *::after {
+  box-sizing: border-box;
+}
+
+@keyframes dsdFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Cards — unified radius, padding, shadow, border
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container > .bg-white {
+  border-radius: 16px;
+  border: 1px solid #d9e3f0;
+  box-shadow: 0 6px 20px rgba(23, 43, 77, 0.05);
+}
+
+.doctor-screening-detail-container > .bg-white.grid {
+  padding: 24px;
+  gap: 20px;
+}
+
+.doctor-screening-detail-container > .bg-white:not(.grid) {
+  padding: 26px 28px;
+}
+
+@media (max-width: 640px) {
+  .doctor-screening-detail-container > .bg-white.grid,
+  .doctor-screening-detail-container > .bg-white:not(.grid) {
+    padding: 18px;
+  }
+}
+
+/* ------------------------------------------------------------
+   Top header row
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container > div:first-child {
+  gap: 16px;
+}
+
+.doctor-screening-detail-container > div:first-child > div:first-child {
+  gap: 14px;
+}
+
+.doctor-screening-detail-container > div:first-child > div:first-child > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  border-radius: 12px;
+  transition: background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
+}
+
+.doctor-screening-detail-container > div:first-child > div:first-child > a:hover {
+  background: #f1f6fc;
+  border-color: #c3d4ea;
+  color: #123b8c;
+}
+
+.doctor-screening-detail-container h1 {
+  line-height: 1.2;
+}
+
+/* ------------------------------------------------------------
+   Form controls
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container :is(button, select, textarea, input) {
+  font-family: inherit;
+  border-radius: 10px;
+}
+
+.doctor-screening-detail-container :is(button, select) {
+  min-height: 44px;
+}
+
+.doctor-screening-detail-container button {
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, box-shadow 0.16s ease,
+              transform 0.12s ease;
+}
+
+.doctor-screening-detail-container button:disabled {
+  cursor: not-allowed;
+}
+
+.doctor-screening-detail-container textarea {
+  min-height: 104px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.doctor-screening-detail-container select:focus,
+.doctor-screening-detail-container textarea:focus {
+  outline: none;
+  border-color: #123b8c;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.1);
+}
+
+/* ------------------------------------------------------------
+   Patient profile grid
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container > .bg-white.grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.doctor-screening-detail-container > .bg-white.grid > div > span:first-child {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+/* ------------------------------------------------------------
+   Risk Evaluation card
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container > .bg-white .grid.grid-cols-1.sm\:grid-cols-2 {
+  gap: 24px;
+}
+
+/* Action buttons in the decision box get equal widths */
+.doctor-screening-detail-container > .bg-white > .grid > div:last-child > button {
+  width: 100%;
+  padding: 0 20px;
+  font-size: 12.5px;
+  letter-spacing: 0.2px;
+}
+
+/* ------------------------------------------------------------
+   Override Modal
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container .fixed.inset-0 {
+  padding: 20px;
+}
+
+.doctor-screening-detail-container .fixed.inset-0 > .bg-white {
+  border-radius: 18px;
+  padding: 26px 28px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+}
+
+.doctor-screening-detail-container .fixed.inset-0 form {
+  gap: 18px;
+}
+
+.doctor-screening-detail-container .fixed.inset-0 label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #172b4d;
+}
+
+.doctor-screening-detail-container .fixed.inset-0 select,
+.doctor-screening-detail-container .fixed.inset-0 textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 13px;
+}
+
+.doctor-screening-detail-container .fixed.inset-0 .flex.justify-end {
+  gap: 10px;
+  padding-top: 16px;
+}
+
+.doctor-screening-detail-container .fixed.inset-0 .flex.justify-end button {
+  min-height: 40px;
+  padding: 0 20px;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------
+   AI Summary tabs
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container .flex.gap-2 > button {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 9px;
+}
+
+/* Summary text block */
+.doctor-screening-detail-container .bg-\[\#F8FAFD\].border.rounded-xl {
+  padding: 18px 20px;
+  line-height: 1.7;
+  font-size: 13.5px;
+  color: #172b4d;
+  border-radius: 12px;
+}
+
+/* ------------------------------------------------------------
+   Q&A rows
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container .flex.flex-col.gap-3 > .bg-\[\#F8FAFD\] {
+  padding: 14px 16px;
+  border-radius: 12px;
+  align-items: center;
+  transition: background 0.14s ease;
+}
+
+.doctor-screening-detail-container .flex.flex-col.gap-3 > .bg-\[\#F8FAFD\]:hover {
+  background: #f1f6fc;
+}
+
+.doctor-screening-detail-container .flex.flex-col.gap-3 > .bg-\[\#F8FAFD\] > div:last-child > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  border-radius: 8px;
+}
+
+/* ------------------------------------------------------------
+   Audit log entries
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container .flex.flex-col.gap-3 > .bg-\[\#F8FAFD\].flex-col {
+  padding: 14px 16px;
+  border-radius: 12px;
+  gap: 8px;
+}
+
+.doctor-screening-detail-container .flex.flex-col.gap-3 > .bg-\[\#F8FAFD\].flex-col strong,
+.doctor-screening-detail-container .flex.flex-col.gap-3 > .bg-\[\#F8FAFD\].flex-col .font-bold {
+  font-size: 12.5px;
+  color: #172b4d;
+}
+
+/* ------------------------------------------------------------
+   Status banner / alerts
+   ------------------------------------------------------------ */
+.doctor-screening-detail-container > .p-4 {
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   Back link / fallback state
+   ------------------------------------------------------------ */
+.doctor-screening-detail-state {
+  min-height: 320px;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 24px;
+  gap: 12px;
+}
+
+.doctor-screening-detail-state > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  transition: background 0.16s ease, transform 0.12s ease;
+}
+
+.doctor-screening-detail-state > a:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .doctor-screening-detail-container {
+    padding: 16px 14px 40px;
+    gap: 16px;
+  }
+
+  .doctor-screening-detail-container > .bg-white.grid > div {
+    gap: 3px;
+  }
+
+  .doctor-screening-detail-container .fixed.inset-0 > .bg-white {
+    padding: 22px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .doctor-screening-detail-container {
+    padding: 12px 12px 36px;
+    gap: 14px;
+  }
+
+  .doctor-screening-detail-container > div:first-child {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .doctor-screening-detail-container > div:first-child > div:first-child > a {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .doctor-screening-detail-container > .bg-white.grid,
+  .doctor-screening-detail-container > .bg-white:not(.grid) {
+    padding: 16px;
+  }
+
+  .doctor-screening-detail-container .fixed.inset-0 {
+    padding: 12px;
+  }
+
+  .doctor-screening-detail-container .fixed.inset-0 > .bg-white {
+    padding: 20px 18px;
+    border-radius: 16px;
+  }
+
+  .doctor-screening-detail-container .fixed.inset-0 .flex.justify-end {
+    flex-direction: column-reverse;
+  }
+
+  .doctor-screening-detail-container .fixed.inset-0 .flex.justify-end button {
+    width: 100%;
+  }
+
+  .doctor-screening-detail-state {
+    min-height: 260px;
+    padding: 28px 16px;
+  }
+}

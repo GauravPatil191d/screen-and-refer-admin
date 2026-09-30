@@ -1,41 +1,355 @@
-/* Screening Result Container Styles */
+/* ============================================================
+   Health Worker — Screening Result
+   ============================================================ */
 
 .screening-result-wrap {
-  max-width: 672px;
+  width: 100%;
+  max-width: 720px;
   margin: 0 auto;
+  padding: 24px 20px 48px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
+  animation: srFade 0.28s ease both;
 }
 
-.result-card {
+.screening-result-wrap *,
+.screening-result-wrap *::before,
+.screening-result-wrap *::after {
+  box-sizing: border-box;
+}
+
+@keyframes srFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------
+   Top banner (completed chip + title)
+   ------------------------------------------------------------ */
+.screening-result-wrap > .text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.screening-result-wrap > .text-center > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: #ebfbf0;
+  border: 1px solid #c4f1d0;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: #22c55e;
+}
+
+.screening-result-wrap h1 {
+  margin: 4px 0 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.3px;
+  color: #172b4d;
+}
+
+.screening-result-wrap > .text-center > p {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+.screening-result-wrap .font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-weight: 600;
+  color: #172b4d;
+}
+
+/* ------------------------------------------------------------
+   Main result card
+   ------------------------------------------------------------ */
+.screening-result-wrap > .bg-white {
   background: #ffffff;
-  border-radius: 24px;
-  border: 1px solid #D9E3F0;
-  box-shadow: 0 4px 16px rgba(18, 59, 140, 0.06);
-  padding: 36px 32px;
+  border: 1px solid #d9e3f0;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(23, 43, 77, 0.06);
+  padding: 34px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
 
-.result-icon-box {
-  width: 80px;
-  height: 80px;
-  border-radius: 20px;
+/* Risk icon box */
+.screening-result-wrap > .bg-white > .w-20 {
+  width: 76px;
+  height: 76px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
-  border: 1px solid transparent;
+  border-width: 1px;
+  border-style: solid;
+  margin-bottom: 18px;
 }
 
-.result-badge {
-  padding: 6px 18px;
-  border-radius: 9999px;
-  font-size: 0.875rem;
+.screening-result-wrap > .bg-white > .w-20 svg {
+  width: 32px;
+  height: 32px;
+}
+
+/* Risk badge */
+.screening-result-wrap > .bg-white > span.rounded-full {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 20px;
+  border-radius: 999px;
+  font-size: 13px;
   font-weight: 800;
+  letter-spacing: 0.5px;
   color: #ffffff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+/* Risk description line */
+.screening-result-wrap > .bg-white > p {
+  margin: 14px 0 0;
+  max-width: 420px;
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: #172b4d;
+}
+
+/* ------------------------------------------------------------
+   Patient summary box
+   ------------------------------------------------------------ */
+.screening-result-wrap > .bg-white > .bg-\[\#F8FAFD\] {
+  width: 100%;
+  margin-top: 26px;
+  padding: 18px 20px;
+  background: #f8fafd;
+  border: 1px solid #d9e3f0;
+  border-radius: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 24px;
+  text-align: left;
+  font-size: 12.5px;
+}
+
+.screening-result-wrap > .bg-white > .bg-\[\#F8FAFD\] > div {
+  min-width: 0;
+}
+
+.screening-result-wrap > .bg-white > .bg-\[\#F8FAFD\] > div > span:first-child {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.screening-result-wrap > .bg-white > .bg-\[\#F8FAFD\] > div > span:last-child {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: #172b4d;
+  word-break: break-word;
+}
+
+/* ------------------------------------------------------------
+   Disclaimer strip
+   ------------------------------------------------------------ */
+.screening-result-wrap > .bg-white > .bg-\[\#EDF4FE\] {
+  width: 100%;
+  margin-top: 22px;
+  padding: 14px 18px;
+  background: #edf4fe;
+  border: 1px solid #d1e2fb;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #123b8c;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------
+   Action buttons row
+   ------------------------------------------------------------ */
+.screening-result-wrap > .bg-white > .flex.flex-col {
+  width: 100%;
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .screening-result-wrap > .bg-white > .flex.flex-col {
+    flex-direction: row;
+  }
+}
+
+.screening-result-wrap > .bg-white > .flex.flex-col > a {
+  flex: 1 1 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 11px;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.16s ease, color 0.16s ease,
+              border-color 0.16s ease, transform 0.12s ease,
+              box-shadow 0.16s ease;
+}
+
+/* Secondary — Patient Directory */
+.screening-result-wrap > .bg-white > .flex.flex-col > a:first-child {
+  background: #f4f8fd;
+  border: 1px solid #d9e3f0;
+  color: #172b4d;
+}
+
+.screening-result-wrap > .bg-white > .flex.flex-col > a:first-child:hover {
+  background: #edf4fe;
+  border-color: #c3d4ea;
+  color: #123b8c;
+}
+
+/* Primary — Health Worker Dashboard */
+.screening-result-wrap > .bg-white > .flex.flex-col > a:last-child {
+  background: #123b8c;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(18, 59, 140, 0.22);
+}
+
+.screening-result-wrap > .bg-white > .flex.flex-col > a:last-child:hover {
+  background: #0b255c;
+}
+
+.screening-result-wrap > .bg-white > .flex.flex-col > a:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Loading / error states
+   ------------------------------------------------------------ */
+.screening-result-state {
+  min-height: 320px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  gap: 12px;
+}
+
+.screening-result-state.max-w-2xl {
+  max-width: 640px;
+  margin-inline: auto;
+  background: #ffffff;
+  border: 1px solid #d9e3f0;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(23, 43, 77, 0.06);
+}
+
+.screening-result-state a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 11px;
+  background: #123b8c;
+  color: #ffffff;
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(18, 59, 140, 0.2);
+  transition: background 0.16s ease, transform 0.12s ease;
+}
+
+.screening-result-state a:hover {
+  background: #0b255c;
+}
+
+.screening-result-state a:active {
+  transform: translateY(1px);
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 768px) {
+  .screening-result-wrap {
+    padding: 16px 14px 36px;
+    gap: 18px;
+  }
+
+  .screening-result-wrap h1 {
+    font-size: 21px;
+  }
+
+  .screening-result-wrap > .bg-white {
+    padding: 26px 22px;
+    border-radius: 16px;
+  }
+
+  .screening-result-wrap > .bg-white > .w-20 {
+    width: 68px;
+    height: 68px;
+    border-radius: 16px;
+    margin-bottom: 14px;
+  }
+
+  .screening-result-wrap > .bg-white > .w-20 svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 560px) {
+  .screening-result-wrap {
+    padding: 12px 12px 32px;
+    gap: 16px;
+  }
+
+  .screening-result-wrap > .bg-white {
+    padding: 22px 18px;
+  }
+
+  .screening-result-wrap > .bg-white > .bg-\[\#F8FAFD\] {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .screening-result-wrap > .bg-white > .flex.flex-col > a {
+    width: 100%;
+  }
+
+  .screening-result-state {
+    padding: 32px 18px;
+    min-height: 260px;
+  }
 }

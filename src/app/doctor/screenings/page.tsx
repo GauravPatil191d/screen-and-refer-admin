@@ -1,7 +1,7 @@
 "use client";
 
-import DoctorDashboardPage from "../dashboard/page";
-
+import DoctorScreeningContainer from "@/containers/doctor-screening-container";
+ 
 export default function DoctorScreeningsListPage() {
-  return <DoctorDashboardPage />;
+  return <DoctorScreeningContainer />;
 }

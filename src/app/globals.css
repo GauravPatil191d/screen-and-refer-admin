@@ -138,3 +138,30 @@ select:focus {
   padding: 24px 20px;
   min-height: calc(100vh - 100px);
 }
+
+main :is(button, a) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+main :is(button, a):focus-visible {
+  outline: 3px solid rgba(22, 184, 212, 0.45);
+  outline-offset: 2px;
+}
+
+main button:disabled {
+  cursor: not-allowed;
+}
+
+main svg {
+  flex-shrink: 0;
+}
+
+main :is(input, select, textarea) {
+  font: inherit;
+}
+
+@media (max-width: 640px) {
+  .cms-page-container {
+    padding: 18px 14px;
+  }
+}
