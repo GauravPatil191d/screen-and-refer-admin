@@ -1,0 +1,152 @@
+/* Sidebar Medical Styling */
+
+.sr-sidebar {
+  width: 260px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.sr-sidebar-brand {
+  padding: 20px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sr-sidebar-logo {
+  height: 44px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.sr-sidebar-profile {
+  margin: 14px 14px 6px 14px;
+  padding: 12px 14px;
+  background: #F4F8FD;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sr-profile-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #E5EEFA;
+  border: 1px solid #C8DDF7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sr-profile-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sr-profile-name {
+  font-size: 0.825rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sr-profile-role {
+  font-size: 0.675rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 0.04em;
+}
+
+.sr-sidebar-menu {
+  flex: 1;
+  padding: 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+}
+
+.sr-menu-heading {
+  font-size: 0.675rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  padding: 8px 12px 4px;
+  text-transform: uppercase;
+}
+
+.sr-sidebar-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.sr-sidebar-item:hover {
+  background: #EDF4FE;
+  color: var(--primary);
+}
+
+.sr-sidebar-item.active {
+  background: #E8F1FC;
+  color: var(--primary);
+  font-weight: 700;
+  border-left: 3px solid var(--primary);
+}
+
+.sr-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sr-menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sr-sidebar-footer {
+  padding: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.sr-logout-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: #FFF0F2;
+  border: 1px solid #FFD4D8;
+  border-radius: 10px;
+  color: var(--error);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sr-logout-button:hover {
+  background: #FFE4E8;
+  border-color: #FFAEB8;
+}

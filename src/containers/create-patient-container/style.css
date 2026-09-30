@@ -1,0 +1,57 @@
+/* Create Patient Container Styles */
+
+.create-patient-wrap {
+  max-width: 768px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.create-patient-card {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #D9E3F0;
+  box-shadow: 0 2px 8px rgba(18, 59, 140, 0.04);
+  padding: 32px;
+}
+
+.create-patient-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.create-patient-input {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  font-size: 0.875rem;
+  background: #F8FAFD;
+  border: 1px solid #D9E3F0;
+  border-radius: 12px;
+  color: #172B4D;
+  transition: all 0.2s ease;
+}
+
+.create-patient-input:focus {
+  background: #ffffff;
+  border-color: #123B8C !important;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.12) !important;
+  outline: none;
+}
+
+.create-patient-select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  background: #F8FAFD;
+  border: 1px solid #D9E3F0;
+  border-radius: 12px;
+  color: #172B4D;
+}
+
+.create-patient-select:focus {
+  background: #ffffff;
+  border-color: #123B8C !important;
+  outline: none;
+}

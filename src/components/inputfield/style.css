@@ -1,0 +1,235 @@
+.hexar-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.hexar-input-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: 0.01em;
+}
+
+.hexar-required {
+  color: var(--accent-orange);
+  margin-left: 2px;
+}
+
+.hexar-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.hexar-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.hexar-input,
+.hexar-textarea {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  color: var(--text-main);
+  font-size: 0.95rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+}
+
+.hexar-input.has-icon,
+.hexar-textarea.has-icon {
+  padding-left: 44px;
+}
+
+.hexar-input.has-toggle {
+  padding-right: 44px;
+}
+
+.hexar-input:hover,
+.hexar-textarea:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: var(--bg-surface-hover);
+}
+
+.hexar-input:focus,
+.hexar-textarea:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  background: var(--bg-surface-hover);
+}
+
+.hexar-textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.5;
+}
+
+.hexar-password-toggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.hexar-password-toggle:hover {
+  color: var(--text-main);
+}
+
+/* File Dropzone */
+.hexar-file-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.hexar-file-dropzone {
+  position: relative;
+  border: 2px dashed rgba(255, 255, 255, 0.14);
+  background: var(--bg-surface);
+  border-radius: var(--radius-md);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.hexar-file-dropzone:hover,
+.hexar-file-dropzone.drag-active {
+  border-color: var(--accent-primary);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+.hexar-file-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+.hexar-file-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.hexar-upload-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(99, 102, 241, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.hexar-file-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.hexar-file-highlight {
+  color: var(--accent-primary);
+  font-weight: 600;
+}
+
+.hexar-file-hint {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+}
+
+/* Preview Card */
+.hexar-preview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  animation: fadeIn 0.25s ease-out;
+}
+
+.hexar-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.hexar-preview-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--accent-orange);
+}
+
+.hexar-preview-remove {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  border-radius: 6px;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.hexar-preview-remove:hover {
+  background: rgba(239, 68, 68, 0.3);
+  color: #ffffff;
+}
+
+.hexar-preview-body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #000;
+  max-height: 240px;
+  overflow: hidden;
+}
+
+.hexar-preview-image {
+  max-width: 100%;
+  max-height: 240px;
+  object-fit: contain;
+}
+
+.hexar-preview-video {
+  width: 100%;
+  max-height: 240px;
+  outline: none;
+}
+
+.hexar-input-error {
+  font-size: 0.8rem;
+  color: var(--accent-red);
+  margin-top: 2px;
+}

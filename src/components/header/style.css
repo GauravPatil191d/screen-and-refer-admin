@@ -1,0 +1,96 @@
+/* Header Medical Styling */
+
+.sr-header {
+  height: 70px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.sr-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sr-header-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.sr-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: #EBFBF0;
+  border: 1px solid #C4F1D0;
+  border-radius: 9999px;
+  font-size: 0.725rem;
+  font-weight: 700;
+  color: var(--success);
+}
+
+.sr-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+}
+
+.sr-header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sr-nav-doctor-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #F4F8FD;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.sr-nav-icon-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #F4F8FD;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sr-nav-icon-btn:hover {
+  background: #EDF4FE;
+  color: var(--primary);
+  border-color: #B4CEF0;
+}
+
+.sr-badge-ping {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 6px var(--accent-cyan);
+}
