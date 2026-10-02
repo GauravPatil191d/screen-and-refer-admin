@@ -331,6 +331,24 @@
   transform: scale(0.98);
 }
 
+.screening-answer-control {
+  width: min(100%, 240px);
+  min-width: 150px;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d9e3f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #172b4d;
+  font-size: 13px;
+}
+
+.screening-answer-control:focus {
+  border-color: #123b8c;
+  box-shadow: 0 0 0 3px rgba(18, 59, 140, 0.12);
+  outline: none;
+}
+
 /* ------------------------------------------------------------
    Derived-from-patient row
    ------------------------------------------------------------ */
@@ -564,6 +582,10 @@
   .screening-pill-btn {
     flex: 1 1 0;
     min-width: 0;
+  }
+
+  .screening-answer-control {
+    width: 100%;
   }
 
   .screening-question-card > div > div:last-child {

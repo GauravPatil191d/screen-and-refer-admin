@@ -46,10 +46,10 @@ export const Header: React.FC = () => {
           </span>
         </div>
 
-        <button className="sr-nav-icon-btn" title="Notifications">
+        {/* <button className="sr-nav-icon-btn" title="Notifications">
           <Bell className="w-4.5 h-4.5" />
           <span className="sr-badge-ping"></span>
-        </button>
+        </button> */}
       </div>
     </header>
   );

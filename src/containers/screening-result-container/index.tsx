@@ -62,6 +62,9 @@ export default function ScreeningResultPage({
         <AlertCircle className="w-10 h-10 text-[#DC3545] mx-auto mb-2" />
         <h2 className="text-lg font-bold text-[#172B4D]">Screening Not Found</h2>
         <p className="text-xs text-[#64748B] mt-1">{error || "Unable to display result."}</p>
+        <p className="mt-4 rounded-lg border border-[#D1E2FB] bg-[#EDF4FE] p-3 text-xs text-[#123B8C]">
+          Screening aid only, not a diagnosis.
+        </p>
         <Link
           href="/health-worker/dashboard"
           className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-[#123B8C] text-white text-xs font-bold rounded-xl"
@@ -72,7 +75,28 @@ export default function ScreeningResultPage({
     );
   }
 
-  const risk = screening.finalRisk || screening.riskLevel || RiskLevel.LOW;
+  const risk = screening.finalRisk || screening.systemRisk || screening.riskLevel;
+
+  if (!risk || !Object.values(RiskLevel).includes(risk)) {
+    return (
+      <div className="screening-result-wrap screening-result-state max-w-2xl mx-auto p-6 bg-white rounded-2xl border border-[#D9E3F0] text-center">
+        <AlertCircle className="w-10 h-10 text-[#D97706] mx-auto mb-2" />
+        <h2 className="text-lg font-bold text-[#172B4D]">Risk Score Unavailable</h2>
+        <p className="text-xs text-[#64748B] mt-1">
+          The screening was loaded, but the server did not return a valid risk level. Please retry or contact support.
+        </p>
+        <p className="mt-4 rounded-lg border border-[#D1E2FB] bg-[#EDF4FE] p-3 text-xs text-[#123B8C]">
+          Screening aid only, not a diagnosis.
+        </p>
+        <Link
+          href="/health-worker/dashboard"
+          className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-[#123B8C] text-white text-xs font-bold rounded-xl"
+        >
+          <span>Back to Dashboard</span>
+        </Link>
+      </div>
+    );
+  }
 
   const getRiskBadgeStyles = (level: RiskLevel) => {
     switch (level) {

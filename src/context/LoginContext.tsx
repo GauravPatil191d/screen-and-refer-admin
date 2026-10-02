@@ -18,6 +18,12 @@ export interface SafeUser {
   role: UserRole;
 }
 
+function normalizeRole(role: string): UserRole | null {
+  if (role === "DOCTOR" || role === "DOCTER") return "DOCTOR";
+  if (role === "HEALTH_WORKER") return "HEALTH_WORKER";
+  return null;
+}
+
 interface LoginContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -49,11 +55,12 @@ export function LoginProvider({ children }: { children: ReactNode }) {
       }>("/auth/me");
 
       if (response.data?.success && response.data.data) {
-        const rawRole = response.data.data.role;
-        const normalizedRole: UserRole =
-          rawRole === "DOCTER" || rawRole === "DOCTOR"
-            ? "DOCTOR"
-            : "HEALTH_WORKER";
+        const normalizedRole = normalizeRole(response.data.data.role);
+
+        if (!normalizedRole) {
+          setUser(null);
+          return;
+        }
 
         setUser({
           id: response.data.data.id,
@@ -102,11 +109,14 @@ export function LoginProvider({ children }: { children: ReactNode }) {
         }>("/auth/me");
 
         if (meRes.data?.success && meRes.data.data) {
-          const rawRole = meRes.data.data.role;
-          const normalizedRole: UserRole =
-            rawRole === "DOCTER" || rawRole === "DOCTOR"
-              ? "DOCTOR"
-              : "HEALTH_WORKER";
+          const normalizedRole = normalizeRole(meRes.data.data.role);
+
+          if (!normalizedRole) {
+            const message = "Your account has an unsupported role. Please contact an administrator.";
+            setUser(null);
+            setLoginError(message);
+            return { success: false, error: message };
+          }
 
           const safeUser: SafeUser = {
             id: meRes.data.data.id,

@@ -125,20 +125,21 @@ export const HealthWorkerDashboardContainer: React.FC = () => {
           <div className="py-12 flex justify-center items-center">
             <div className="animate-spin rounded-full h-8 w-8 border-3 border-[#D9E3F0] border-t-[#123B8C]" />
           </div>
-        ) : patients.length === 0 ? (
-          <div className="py-12 text-center">
-            <Users className="w-10 h-10 text-[#64748B] mx-auto mb-2 opacity-50" />
-            <p className="text-sm font-semibold text-[#172B4D]">No patients registered yet</p>
-            <p className="text-xs text-[#64748B] mt-1">Get started by adding your first patient.</p>
-            <Link
-              href="/health-worker/patients/new"
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-[#123B8C] text-white text-xs font-bold rounded-lg shadow"
-            >
-              <UserPlus className="w-3.5 h-3.5" />
-              <span>Register Patient</span>
-            </Link>
-          </div>
-        ) : (
+       ) : patients.length === 0 ? (
+  <div className="hw-empty">
+    <div className="hw-empty-icon">
+      <Users className="w-8 h-8" />
+    </div>
+    <h3 className="hw-empty-title">No patients registered yet</h3>
+    <p className="hw-empty-text">
+      Get started by adding your first patient to the registry.
+    </p>
+    <Link href="/health-worker/patients/new" className="hw-empty-cta">
+      <UserPlus className="w-4 h-4" />
+      <span>Register Patient</span>
+    </Link>
+  </div>
+) : (
           <div className="overflow-x-auto">
             <table className="hw-custom-table">
               <thead>

@@ -9,8 +9,11 @@ import {
   ScreeningQuestion,
   ScreeningConditionRule,
   Screening,
+  ScreeningAnswer,
+  ScreeningAnswers,
 } from "@/service/screeningService";
 import { PatientService, Patient, PatientSex } from "@/service/patientService";
+import { useLogin } from "@/context/LoginContext";
 import {
   Activity,
   ArrowLeft,
@@ -31,15 +34,17 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
   patientId,
 }) => {
   const router = useRouter();
+  const { user } = useLogin();
 
   const [patient, setPatient] = useState<Patient | null>(null);
   const [config, setConfig] = useState<ScreeningConfig | null>(null);
   const [screening, setScreening] = useState<Screening | null>(null);
 
-  const [answers, setAnswers] = useState<Record<string, boolean>>({});
+  const [answers, setAnswers] = useState<ScreeningAnswers>({});
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isSavingDraft, setIsSavingDraft] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [draftSyncState, setDraftSyncState] = useState<"synced" | "pending" | "offline">("synced");
   const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,11 +61,36 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
         setPatient(patientData);
         setConfig(configData);
 
-        const screeningData = await ScreeningService.startScreening(patientId);
+        const sessionKey = `active_screening_${user?.id || "unknown"}_${patientId}`;
+        let screeningData: Screening | null = null;
+        let savedScreeningId: string | null = null;
+
+        try {
+          savedScreeningId = localStorage.getItem(sessionKey);
+        } catch {}
+
+        if (savedScreeningId) {
+          try {
+            const savedScreening = await ScreeningService.getScreening(savedScreeningId);
+            if (savedScreening.status === "DRAFT") {
+              screeningData = savedScreening;
+            }
+          } catch (err: any) {
+            if (err.status !== 404) throw err;
+          }
+        }
+
+        if (!screeningData) {
+          screeningData = await ScreeningService.startScreening(patientId);
+          try {
+            localStorage.setItem(sessionKey, screeningData.screeningId);
+          } catch {}
+        }
+
         setScreening(screeningData);
 
         const serverAnswers = screeningData.answers || {};
-        let localDraft: Record<string, boolean> = {};
+        let localDraft: ScreeningAnswers = {};
         try {
           const draftKey = `screening_draft_${screeningData.screeningId}`;
           const cached = localStorage.getItem(draftKey);
@@ -77,7 +107,7 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
     }
 
     initSession();
-  }, [patientId]);
+  }, [patientId, user?.id]);
 
   // Evaluator for conditional question visibility
   const isRuleMet = useCallback(
@@ -85,7 +115,7 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
       rule: ScreeningConditionRule,
       age: number,
       sex: PatientSex,
-      currentAnswers: Record<string, boolean>
+      currentAnswers: ScreeningAnswers
     ) => {
       switch (rule.field) {
         case "ageAtScreening":
@@ -106,7 +136,7 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
       question: ScreeningQuestion,
       age: number,
       sex: PatientSex,
-      currentAnswers: Record<string, boolean>
+      currentAnswers: ScreeningAnswers
     ) => {
       if (!question.showWhen) return true;
       return question.showWhen.all.every((rule) =>
@@ -119,17 +149,17 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
   // Clean inactive answers whenever parent conditions change
   const cleanInactiveAnswers = useCallback(
     (
-      candidateAnswers: Record<string, boolean>,
+      candidateAnswers: ScreeningAnswers,
       age: number,
       sex: PatientSex
     ) => {
       if (!config) return candidateAnswers;
-      const cleaned: Record<string, boolean> = {};
+      const cleaned: ScreeningAnswers = {};
 
       for (const question of config.questions) {
         if (question.source) continue;
         if (isQuestionVisible(question, age, sex, candidateAnswers)) {
-          if (typeof candidateAnswers[question.id] === "boolean") {
+          if (candidateAnswers[question.id] !== undefined) {
             cleaned[question.id] = candidateAnswers[question.id];
           }
         }
@@ -142,12 +172,13 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
   // Save draft to backend & localStorage
   const persistDraft = useCallback(
     async (
-      updatedAnswers: Record<string, boolean>,
+      updatedAnswers: ScreeningAnswers,
       screeningId: string,
       silent = false
-    ) => {
-      if (!screeningId) return;
+    ): Promise<boolean> => {
+      if (!screeningId) return false;
       if (!silent) setIsSavingDraft(true);
+      setDraftSyncState("pending");
 
       try {
         localStorage.setItem(
@@ -159,8 +190,12 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
       try {
         await ScreeningService.saveDraft(screeningId, updatedAnswers);
         setLastSavedTime(new Date().toLocaleTimeString());
+        setDraftSyncState("synced");
+        return true;
       } catch (err: any) {
+        setDraftSyncState("offline");
         if (!silent) setError("Could not sync draft to server: " + err.message);
+        return false;
       } finally {
         if (!silent) setIsSavingDraft(false);
       }
@@ -168,14 +203,32 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
     []
   );
 
+  useEffect(() => {
+    if (!screening) return;
+
+    const syncDraftWhenOnline = () => {
+      if (Object.keys(answers).length > 0) {
+        void persistDraft(answers, screening.screeningId, true);
+      }
+    };
+
+    window.addEventListener("online", syncDraftWhenOnline);
+    return () => window.removeEventListener("online", syncDraftWhenOnline);
+  }, [answers, persistDraft, screening]);
+
   // Handle answering a question
-  const handleAnswerChange = (questionId: string, value: boolean) => {
+  const handleAnswerChange = (questionId: string, value: ScreeningAnswer | undefined) => {
     if (!screening) return;
 
     const age = screening.ageAtScreening;
     const sex = screening.sexAtScreening;
 
-    const newAnswers = { ...answers, [questionId]: value };
+    const newAnswers = { ...answers };
+    if (value === undefined) {
+      delete newAnswers[questionId];
+    } else {
+      newAnswers[questionId] = value;
+    }
     const validAnswers = cleanInactiveAnswers(newAnswers, age, sex);
 
     setAnswers(validAnswers);
@@ -191,11 +244,11 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
     const sex = screening.sexAtScreening;
 
     const visibleQuestions = config.questions.filter(
-      (q) => !q.source && isQuestionVisible(q, age, sex, answers)
+      (q) => !q.source && q.required && isQuestionVisible(q, age, sex, answers)
     );
 
     const missingQuestions = visibleQuestions.filter(
-      (q) => typeof answers[q.id] !== "boolean"
+      (q) => answers[q.id] === undefined
     );
 
     if (missingQuestions.length > 0) {
@@ -207,11 +260,17 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
 
     setIsSubmitting(true);
     try {
-      await persistDraft(answers, screening.screeningId, true);
+      const draftSynced = await persistDraft(answers, screening.screeningId, true);
+      if (!draftSynced) {
+        setError("Your draft is saved on this device but could not sync. Reconnect and try again.");
+        return;
+      }
+
       const result = await ScreeningService.submitScreening(screening.screeningId);
 
       try {
         localStorage.removeItem(`screening_draft_${screening.screeningId}`);
+        localStorage.removeItem(`active_screening_${user?.id || "unknown"}_${patientId}`);
       } catch {}
 
       router.push(`/health-worker/screenings/${result.screeningId}/result`);
@@ -240,8 +299,12 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
   );
 
   const totalActive = activeQuestions.filter((q) => !q.source).length;
+  const requiredQuestions = activeQuestions.filter((q) => !q.source && q.required);
   const totalAnswered = activeQuestions.filter(
-    (q) => !q.source && typeof answers[q.id] === "boolean"
+    (q) => !q.source && answers[q.id] !== undefined
+  ).length;
+  const totalRequiredAnswered = requiredQuestions.filter(
+    (q) => answers[q.id] !== undefined
   ).length;
 
   const progressPercent =
@@ -274,6 +337,14 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
             <span className="text-[11px] text-[#64748B] flex items-center gap-1">
               <Clock className="w-3.5 h-3.5 text-[#14B8A6]" />
               <span>Draft synced at {lastSavedTime}</span>
+            </span>
+          )}
+          {draftSyncState === "pending" && (
+            <span className="text-[11px] text-[#64748B]">Saving draft...</span>
+          )}
+          {draftSyncState === "offline" && (
+            <span className="text-[11px] font-semibold text-[#D97706]">
+              Saved on this device; waiting to sync
             </span>
           )}
 
@@ -357,8 +428,8 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
             );
           }
 
-          const isAnswered = typeof answers[question.id] === "boolean";
           const currentAnswer = answers[question.id];
+          const isAnswered = currentAnswer !== undefined;
 
           return (
             <div
@@ -382,33 +453,70 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
                   </h3>
                 </div>
 
-                {/* Yes / No Toggle Buttons */}
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => handleAnswerChange(question.id, true)}
-                    className={`screening-pill-btn ${
-                      currentAnswer === true
-                        ? "bg-[#DC3545] text-white shadow-md transform scale-105"
-                        : "bg-[#F8FAFD] text-[#64748B] border border-[#D9E3F0] hover:bg-[#FFF0F2] hover:text-[#DC3545]"
-                    }`}
-                  >
-                    <span>YES</span>
-                  </button>
+                {question.type === "boolean" ? (
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleAnswerChange(question.id, true)}
+                      className={`screening-pill-btn ${
+                        currentAnswer === true
+                          ? "bg-[#DC3545] text-white shadow-md transform scale-105"
+                          : "bg-[#F8FAFD] text-[#64748B] border border-[#D9E3F0] hover:bg-[#FFF0F2] hover:text-[#DC3545]"
+                      }`}
+                    >
+                      <span>YES</span>
+                    </button>
 
-                  <button
-                    type="button"
-                    onClick={() => handleAnswerChange(question.id, false)}
-                    className={`screening-pill-btn ${
-                      currentAnswer === false
-                        ? "bg-[#22C55E] text-white shadow-md transform scale-105"
-                        : "bg-[#F8FAFD] text-[#64748B] border border-[#D9E3F0] hover:bg-[#EBFBF0] hover:text-[#22C55E]"
-                    }`}
+                    <button
+                      type="button"
+                      onClick={() => handleAnswerChange(question.id, false)}
+                      className={`screening-pill-btn ${
+                        currentAnswer === false
+                          ? "bg-[#22C55E] text-white shadow-md transform scale-105"
+                          : "bg-[#F8FAFD] text-[#64748B] border border-[#D9E3F0] hover:bg-[#EBFBF0] hover:text-[#22C55E]"
+                      }`}
+                    >
+                      <span>NO</span>
+                    </button>
+                  </div>
+                ) : question.type === "number" ? (
+                  <input
+                    type="number"
+                    value={typeof currentAnswer === "number" ? currentAnswer : ""}
+                    onChange={(event) =>
+                      handleAnswerChange(
+                        question.id,
+                        event.target.value === "" ? undefined : Number(event.target.value)
+                      )
+                    }
+                    className="screening-answer-control"
+                    aria-label={question.text}
+                    required={question.required}
+                  />
+                ) : (
+                  <select
+                    value={typeof currentAnswer === "string" ? currentAnswer : ""}
+                    onChange={(event) =>
+                      handleAnswerChange(question.id, event.target.value || undefined)
+                    }
+                    className="screening-answer-control"
+                    aria-label={question.text}
+                    required={question.required}
                   >
-                    <span>NO</span>
-                  </button>
-                </div>
+                    <option value="">Choose an answer</option>
+                    {(question.options || []).map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                )}
               </div>
+              {question.type === "select" && !question.options?.length && (
+                <p className="mt-3 text-xs text-[#DC3545]">
+                  Answer options are missing from the screening configuration.
+                </p>
+              )}
             </div>
           );
         })}
@@ -425,12 +533,12 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
       {/* Submit Action Bar */}
       <div className="screening-bottom-bar">
         <div className="text-xs text-[#64748B] hidden sm:block">
-          {totalAnswered === totalActive ? (
+          {totalRequiredAnswered === requiredQuestions.length ? (
             <span className="text-[#22C55E] font-bold flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" /> All questions completed
+              <CheckCircle2 className="w-4 h-4" /> Required questions completed
             </span>
           ) : (
-            <span>{totalActive - totalAnswered} question(s) remaining</span>
+            <span>{requiredQuestions.length - totalRequiredAnswered} required question(s) remaining</span>
           )}
         </div>
 
@@ -445,7 +553,7 @@ export const NewScreeningContainer: React.FC<NewScreeningContainerProps> = ({
           <button
             type="button"
             onClick={handleSubmitScreening}
-            disabled={isSubmitting || totalAnswered < totalActive}
+            disabled={isSubmitting || totalRequiredAnswered < requiredQuestions.length}
             className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-7 py-2.5 bg-[#123B8C] hover:bg-[#0B255C] text-white text-xs font-bold rounded-xl shadow-lg transition-all disabled:opacity-50"
           >
             {isSubmitting ? (

@@ -1,0 +1,320 @@
+.create-user-page {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  min-height: 100vh;
+  min-height: 100svh;
+  place-items: center;
+  overflow: hidden;
+  padding: 32px 20px;
+  background:
+    radial-gradient(circle at 8% 16%, rgba(126, 220, 239, 0.24), transparent 32%),
+    linear-gradient(135deg, #f7fcff 0%, #edf7ff 58%, #e3f5fa 100%);
+  color: #172b4d;
+  font-family: "Montserrat", system-ui, -apple-system, sans-serif;
+}
+
+.create-user-page::before {
+  position: absolute;
+  z-index: -1;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 20%;
+  background: linear-gradient(155deg, #b8edf5 0%, #42c9df 50%, #087ab9 100%);
+  clip-path: polygon(0 46%, 16% 66%, 33% 78%, 49% 76%, 64% 60%, 78% 38%, 91% 16%, 100% 0, 100% 100%, 0 100%);
+  content: "";
+  pointer-events: none;
+}
+
+.create-user-card {
+  width: min(100%, 500px);
+  padding: 26px 32px 30px;
+  border: 1px solid rgba(213, 231, 246, 0.94);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 20px 54px rgba(30, 93, 156, 0.14), 0 3px 12px rgba(23, 43, 77, 0.04);
+  animation: create-user-arrive 380ms cubic-bezier(0.2, 0.75, 0.3, 1) both;
+}
+
+.create-user-back {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 7px;
+  color: #55708f;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.create-user-back svg {
+  width: 15px;
+  height: 15px;
+}
+
+.create-user-back:hover {
+  color: #123b8c;
+}
+
+.create-user-heading {
+  padding: 8px 0 20px;
+  text-align: center;
+}
+
+.create-user-heading > img {
+  display: block;
+  width: 136px;
+  height: 42px;
+  margin: 0 auto 14px;
+  object-fit: contain;
+}
+
+.create-user-icon,
+.create-user-success-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 11px;
+  place-items: center;
+  border: 1px solid #c8e8f3;
+  border-radius: 12px;
+  background: #e9f8fc;
+  color: #1088aa;
+}
+
+.create-user-icon svg,
+.create-user-success-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.create-user-eyebrow {
+  margin: 0 0 5px;
+  color: #1386a1;
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.create-user-heading h1,
+.create-user-success h1 {
+  margin: 0;
+  color: #132d73;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.create-user-description {
+  margin: 7px 0 0;
+  color: #70829c;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.create-user-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  border: 1px solid #ffd4d8;
+  border-radius: 9px;
+  background: #fff0f2;
+  color: #bd3040;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.create-user-error svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.create-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.create-user-field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.create-user-field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+  color: #455b7e;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.create-user-field > input,
+.create-user-field > select,
+.create-user-password-wrap > input {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid #dce7f2;
+  border-radius: 8px;
+  background: #fbfdff;
+  color: #172b4d;
+  font: 500 0.75rem "Montserrat", system-ui, sans-serif;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.create-user-field > input:focus,
+.create-user-field > select:focus,
+.create-user-password-wrap > input:focus {
+  border-color: #3d8be8;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(61, 139, 232, 0.13);
+  outline: none;
+}
+
+.create-user-password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.create-user-password-wrap > input {
+  padding-right: 44px;
+}
+
+.create-user-password-toggle {
+  position: absolute;
+  right: 5px;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #8297b3;
+  cursor: pointer;
+}
+
+.create-user-password-toggle:hover {
+  background: #f0f6fc;
+  color: #123b8c;
+}
+
+.create-user-password-toggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.create-user-submit {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 4px;
+  padding: 0 16px;
+  border: 1px solid #075ac4;
+  border-radius: 9px;
+  background: linear-gradient(100deg, #1266d5 0%, #0757c2 100%);
+  box-shadow: 0 5px 13px rgba(17, 91, 193, 0.18);
+  color: #fff;
+  font: 700 0.76rem "Montserrat", system-ui, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.create-user-submit > span {
+  flex: 1;
+  text-align: center;
+}
+
+.create-user-submit svg {
+  width: 17px;
+  height: 17px;
+}
+
+.create-user-submit:hover:not(:disabled) {
+  background: linear-gradient(100deg, #0e59bf 0%, #0649a9 100%);
+  box-shadow: 0 7px 16px rgba(17, 91, 193, 0.24);
+  transform: translateY(-1px);
+}
+
+.create-user-submit:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.create-user-success {
+  padding: 48px 38px;
+  text-align: center;
+}
+
+.create-user-success-icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 16px;
+  border-color: #c4f1d0;
+  background: #ebfbf0;
+  color: #22a45a;
+}
+
+.create-user-success-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.create-user-success .create-user-description {
+  margin-bottom: 22px;
+}
+
+.create-user-success .create-user-description strong {
+  color: #123b8c;
+}
+
+.create-user-page :is(a, button, input, select):focus-visible {
+  outline: 3px solid rgba(22, 184, 212, 0.45);
+  outline-offset: 2px;
+}
+
+@keyframes create-user-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 520px) {
+  .create-user-page {
+    align-items: start;
+    padding: 18px 14px 28px;
+  }
+
+  .create-user-card {
+    margin-block: auto;
+    padding: 20px 18px 22px;
+  }
+
+  .create-user-heading {
+    padding: 5px 0 16px;
+  }
+
+  .create-user-field-row {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+}

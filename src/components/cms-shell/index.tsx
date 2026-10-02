@@ -6,17 +6,19 @@ import { useLogin } from "@/context/LoginContext";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
 import { LoginContainer } from "@/containers/login-container";
+import { CreateUserContainer } from "@/containers/create-user-container";
 
 export const CMSShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
   const { user, isAuthenticated, isLoading } = useLogin();
+  const isPublicRoute = pathname === "/login" || pathname === "/create-user";
 
   useEffect(() => {
     if (isLoading) return;
 
     if (!isAuthenticated) {
-      if (pathname !== "/login") {
+      if (!isPublicRoute) {
         router.replace("/login");
       }
       return;
@@ -24,15 +26,15 @@ export const CMSShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
 
     // Role-based route guard
     if (user?.role === "HEALTH_WORKER") {
-      if (pathname === "/login" || pathname === "/" || pathname.startsWith("/doctor")) {
+      if (isPublicRoute || pathname === "/" || pathname.startsWith("/doctor")) {
         router.replace("/health-worker/dashboard");
       }
     } else if (user?.role === "DOCTOR") {
-      if (pathname === "/login" || pathname === "/" || pathname.startsWith("/health-worker")) {
+      if (isPublicRoute || pathname === "/" || pathname.startsWith("/health-worker")) {
         router.replace("/doctor/dashboard");
       }
     }
-  }, [pathname, isAuthenticated, isLoading, user, router]);
+  }, [pathname, isAuthenticated, isLoading, user, router, isPublicRoute]);
 
   // Loading state during initial session restoration
   if (isLoading) {
@@ -47,6 +49,10 @@ export const CMSShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
   }
 
   // Unauthenticated view
+  if (!isAuthenticated && pathname === "/create-user") {
+    return <CreateUserContainer />;
+  }
+
   if (!isAuthenticated || pathname === "/login") {
     return <LoginContainer />;
   }

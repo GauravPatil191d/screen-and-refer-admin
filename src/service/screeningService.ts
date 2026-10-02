@@ -12,10 +12,12 @@ export enum ScreeningStatus {
   COMPLETED = "COMPLETED",
 }
 
+export type ScreeningAnswer = boolean | number | string;
+
 export type ScreeningConditionRule =
   | { field: "ageAtScreening"; operator: "gte"; value: number }
   | { field: "sexAtScreening"; operator: "equals"; value: string }
-  | { field: "answers"; questionId: string; operator: "equals"; value: boolean };
+  | { field: "answers"; questionId: string; operator: "equals"; value: ScreeningAnswer };
 
 export interface ScreeningCondition {
   all: ScreeningConditionRule[];
@@ -27,8 +29,11 @@ export interface ScreeningQuestion {
   type: "number" | "select" | "boolean";
   source?: "patient";
   required: boolean;
+  options?: { label: string; value: string }[];
   showWhen?: ScreeningCondition;
 }
+
+export type ScreeningAnswers = Record<string, ScreeningAnswer>;
 
 export interface ScreeningConfig {
   protocolId: string;
@@ -50,11 +55,11 @@ export interface Screening {
   sexAtScreening: PatientSex;
   status: ScreeningStatus;
   configVersion: string;
-  answers: Record<string, boolean>;
+  answers: ScreeningAnswers;
   inactiveAnswers?: Record<
     string,
     {
-      value: boolean;
+      value: ScreeningAnswer;
       status: "INACTIVE";
       inactiveReason: string;
       recordedAt: string;
@@ -105,7 +110,7 @@ export const ScreeningService = {
 
   async saveDraft(
     screeningId: string,
-    answers: Record<string, boolean>
+    answers: ScreeningAnswers
   ): Promise<Screening> {
     const res = await axiosClient.patch<{ success: boolean; data: Screening }>(
       `/screenings/${screeningId}`,
