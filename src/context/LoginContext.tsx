@@ -14,8 +14,40 @@ export type UserRole = "HEALTH_WORKER" | "DOCTOR";
 
 export interface SafeUser {
   id: string;
+  userId: string;
   name: string;
+  email: string;
   role: UserRole;
+  isActive: boolean;
+  lastLoginAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface CurrentUserResponse {
+  id: string;
+  user_id: string;
+  name: string;
+  email: string;
+  role: string;
+  isActive: boolean;
+  lastLoginAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+function toSafeUser(profile: CurrentUserResponse, role: UserRole): SafeUser {
+  return {
+    id: profile.id,
+    userId: profile.user_id,
+    name: profile.name,
+    email: profile.email,
+    role,
+    isActive: profile.isActive,
+    lastLoginAt: profile.lastLoginAt,
+    createdAt: profile.createdAt,
+    updatedAt: profile.updatedAt,
+  };
 }
 
 function normalizeRole(role: string): UserRole | null {
@@ -51,7 +83,7 @@ export function LoginProvider({ children }: { children: ReactNode }) {
     try {
       const response = await axiosClient.get<{
         success: boolean;
-        data: { id: string; name: string; role: string };
+        data: CurrentUserResponse;
       }>("/auth/me");
 
       if (response.data?.success && response.data.data) {
@@ -62,11 +94,7 @@ export function LoginProvider({ children }: { children: ReactNode }) {
           return;
         }
 
-        setUser({
-          id: response.data.data.id,
-          name: response.data.data.name,
-          role: normalizedRole,
-        });
+        setUser(toSafeUser(response.data.data, normalizedRole));
       } else {
         setUser(null);
       }
@@ -105,7 +133,7 @@ export function LoginProvider({ children }: { children: ReactNode }) {
         // 2. Fetch authenticated user profile
         const meRes = await axiosClient.get<{
           success: boolean;
-          data: { id: string; name: string; role: string };
+          data: CurrentUserResponse;
         }>("/auth/me");
 
         if (meRes.data?.success && meRes.data.data) {
@@ -118,11 +146,7 @@ export function LoginProvider({ children }: { children: ReactNode }) {
             return { success: false, error: message };
           }
 
-          const safeUser: SafeUser = {
-            id: meRes.data.data.id,
-            name: meRes.data.data.name,
-            role: normalizedRole,
-          };
+          const safeUser = toSafeUser(meRes.data.data, normalizedRole);
 
           setUser(safeUser);
           return { success: true, user: safeUser };

@@ -56,11 +56,50 @@
 .sr-nav-doctor-badge {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: #F4F8FD;
+  gap: 9px;
+  padding: 5px 12px 5px 6px;
+  background: #ffffff;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.sr-nav-doctor-badge:hover {
+  background: #f8fbff;
+  border-color: #b4cef0;
+  box-shadow: 0 3px 10px rgba(18, 59, 140, 0.08);
+}
+
+.sr-nav-doctor-badge:focus-visible {
+  outline: 3px solid rgba(22, 184, 212, 0.45);
+  outline-offset: 2px;
+}
+
+.sr-nav-avatar {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.68);
+  border-radius: 50%;
+  background: linear-gradient(145deg, #16b8d4, #123b8c);
+  box-shadow: 0 2px 7px rgba(18, 59, 140, 0.18);
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.sr-nav-user-name {
+  max-width: 180px;
+  overflow: hidden;
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sr-nav-icon-btn {
@@ -93,4 +132,19 @@
   border-radius: 50%;
   background: var(--accent-cyan);
   box-shadow: 0 0 6px var(--accent-cyan);
+}
+
+@media (max-width: 640px) {
+  .sr-header {
+    height: 62px;
+    padding-inline: 16px;
+  }
+
+  .sr-header-title {
+    font-size: 1rem;
+  }
+
+  .sr-nav-user-name {
+    max-width: 112px;
+  }
 }
