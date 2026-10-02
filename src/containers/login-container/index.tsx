@@ -11,12 +11,69 @@ import {
   UserPlus,
   Eye,
   EyeOff,
-  FileText,
-  Users,
-  Heart,
-  Sparkles,
+  ShieldCheck,
 } from "lucide-react";
 import "./style.css";
+
+/*
+  Clean ECG trace. Three identical P-QRS-T complexes with the R-peaks
+  landing exactly under the three milestone markers (x = 90, 290, 490).
+  Baseline y = 150, R-peak y = 58 (24.2% of the 240 viewBox height).
+
+  Beat shape (relative to R-peak at x = R):
+    P wave:  R-45 … R-15   (soft rounded bump, +10 above baseline)
+    Q dip:   R-3           (small sharp dip, +8 below baseline)
+    R peak:  R             (tall spike, -92 above baseline)
+    S dip:   R+3           (deep dip, +25 below baseline)
+    T wave:  R+25 … R+55   (larger rounded bump, +20 above baseline)
+*/
+const TRACE_PATH = [
+  "M0 150",
+  // Beat 1 — R-peak at x = 90
+  "L45 150",
+  "Q52 140 60 140",
+  "Q68 140 75 150",
+  "L85 150",
+  "L87 158",
+  "L90 58",
+  "L93 175",
+  "L96 150",
+  "L115 150",
+  "Q122 130 130 130",
+  "Q138 130 145 150",
+  // Beat 2 — R-peak at x = 290
+  "L245 150",
+  "Q252 140 260 140",
+  "Q268 140 275 150",
+  "L285 150",
+  "L287 158",
+  "L290 58",
+  "L293 175",
+  "L296 150",
+  "L315 150",
+  "Q322 130 330 130",
+  "Q338 130 345 150",
+  // Beat 3 — R-peak at x = 490
+  "L445 150",
+  "Q452 140 460 140",
+  "Q468 140 475 150",
+  "L485 150",
+  "L487 158",
+  "L490 58",
+  "L493 175",
+  "L496 150",
+  "L515 150",
+  "Q522 130 530 130",
+  "Q538 130 545 150",
+  // Flat tail runs behind the sign-in card
+  "L1000 150",
+].join(" ");
+
+const MILESTONES = [
+  { x: 9, title: "Screen", desc: "Identify health risks early", delay: 0.55 },
+  { x: 29, title: "Refer", desc: "Connect patients to the right care", delay: 1.5 },
+  { x: 49, title: "Improve lives", desc: "Stronger communities, healthier futures", delay: 2.4 },
+];
 
 export const LoginContainer: React.FC = () => {
   const { login, loginError, isLoading: isContextLoading, clearError } = useLogin();
@@ -59,111 +116,106 @@ export const LoginContainer: React.FC = () => {
     router.push("/create-user");
   };
 
+  const clearErrors = () => {
+    if (localError || loginError) {
+      setLocalError(null);
+      clearError();
+    }
+  };
+
   const displayError = localError || loginError;
 
   return (
     <div className="sr-login-layout">
-      {/* Ambient decorative shapes */}
-      <div className="sr-ambient" aria-hidden="true">
-        <span className="sr-orb sr-orb--1" />
-        <span className="sr-orb sr-orb--2" />
-        <span className="sr-orb sr-orb--3" />
-        <span className="sr-plus sr-plus--1">+</span>
-        <span className="sr-plus sr-plus--2">+</span>
-        <span className="sr-plus sr-plus--3">+</span>
-        <span className="sr-plus sr-plus--4">+</span>
-      </div>
+      {/* ---------------- Top bar ---------------- */}
+      <header className="sr-topbar">
+        <img
+          src="/images/full-logo.png"
+          alt="Screen & Refer"
+          className="sr-topbar-logo"
+        />
+        <span className="sr-topbar-divider" aria-hidden="true" />
+        <span className="sr-topbar-tag">Clinical Screening Platform</span>
+      </header>
 
-      {/* ---------------- Left / Branding panel ---------------- */}
-      <section className="sr-brand-panel">
-        <header className="sr-brand-header">
-          <img
-            src="/images/screening-refer-logo.png"
-            alt="Screen & Refer"
-            className="sr-brand-logo"
-          />
-        </header>
-
-        <div className="sr-brand-body">
-          <span className="sr-brand-chip">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Clinical Screening Platform</span>
-          </span>
-
-          <h1 className="sr-brand-heading">
-            <span>Early Detection.</span>
-            <span className="sr-brand-heading-accent">Better Outcomes.</span>
+      <main className="sr-main">
+        {/* ---------------- Hero + heartbeat chart ---------------- */}
+        <section className="sr-hero">
+          <h1 className="sr-hero-title">
+            <span>Early detection.</span>
+            <span className="sr-hero-title-2">Better outcomes.</span>
           </h1>
-
-          <p className="sr-brand-subtitle">
-            Empowering healthcare professionals with seamless screening and
-            referral workflows for healthier communities.
+          <p className="sr-hero-sub">
+            Screening and referral workflows built for doctors and health
+            workers, so no patient is missed.
           </p>
 
-          <ul className="sr-brand-features">
-            <li className="sr-feature">
-              <span className="sr-feature-icon sr-feature-icon--blue">
-                <FileText className="w-4 h-4" />
-              </span>
-              <div className="sr-feature-text">
-                <span className="sr-feature-title">Screen</span>
-                <span className="sr-feature-desc">Identify health risks early</span>
-              </div>
-            </li>
+          <div className="sr-strip" aria-hidden="true">
+            <div className="sr-plot">
+              <svg viewBox="0 0 1000 240" preserveAspectRatio="none" className="sr-trace-svg">
+                <defs>
+                  {/* Fading tail behind the sweep head, like a patient monitor */}
+                  <linearGradient id="srTail" x1="0" x2="1" y1="0" y2="0">
+                    <stop offset="0" stopColor="#fff" stopOpacity="0" />
+                    <stop offset="0.7" stopColor="#fff" stopOpacity="0.3" />
+                    <stop offset="0.96" stopColor="#fff" stopOpacity="1" />
+                    <stop offset="1" stopColor="#fff" stopOpacity="1" />
+                  </linearGradient>
+                  <mask id="srLiveMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="240">
+                    <rect x="-420" y="0" width="420" height="240" fill="url(#srTail)">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        from="0 0"
+                        to="1420 0"
+                        dur="6s"
+                        begin="0.2s"
+                        repeatCount="indefinite"
+                      />
+                    </rect>
+                  </mask>
+                  <mask id="srHeadMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="240">
+                    <rect x="-8" y="0" width="8" height="240" fill="#fff">
+                      <animateTransform
+                        attributeName="transform"
+                        type="translate"
+                        from="0 0"
+                        to="1420 0"
+                        dur="6s"
+                        begin="0.2s"
+                        repeatCount="indefinite"
+                      />
+                    </rect>
+                  </mask>
+                </defs>
+                <path className="sr-trace-base" d={TRACE_PATH} />
+                <path className="sr-trace" d={TRACE_PATH} mask="url(#srLiveMask)" />
+                <path className="sr-trace-head" d={TRACE_PATH} mask="url(#srHeadMask)" />
+              </svg>
 
-            <li className="sr-feature">
-              <span className="sr-feature-icon sr-feature-icon--teal">
-                <Users className="w-4 h-4" />
-              </span>
-              <div className="sr-feature-text">
-                <span className="sr-feature-title">Refer</span>
-                <span className="sr-feature-desc">Connect patients to the right care</span>
-              </div>
-            </li>
-
-            <li className="sr-feature">
-              <span className="sr-feature-icon sr-feature-icon--violet">
-                <Heart className="w-4 h-4" />
-              </span>
-              <div className="sr-feature-text">
-                <span className="sr-feature-title">Improve Lives</span>
-                <span className="sr-feature-desc">Stronger communities, healthier futures</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-
-        {/* ECG line accent */}
-        <div className="sr-brand-ecg" aria-hidden="true">
-          <svg
-            viewBox="0 0 360 80"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
-            <path
-              d="M0 42 H96 L112 42 L128 34 L143 55 L160 14 L178 58 L194 42 H360"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
-      </section>
-
-      {/* ---------------- Right / Auth card ---------------- */}
-      <section className="sr-auth-panel">
-        <div className="sr-auth-card">
-          <header className="sr-auth-header">
-            <div className="sr-auth-logo-wrap">
-              <img
-                src="/images/screening-refer-logo.png"
-                alt="Screen & Refer"
-                className="sr-auth-logo"
-              />
+              {MILESTONES.map((m) => (
+                <div
+                  key={m.title}
+                  className="sr-mark"
+                  style={{ "--x": m.x, animationDelay: `${m.delay}s` } as React.CSSProperties}
+                >
+                  <span className="sr-mark-dot" />
+                  <div className="sr-mark-text">
+                    <span className="sr-mark-title">{m.title}</span>
+                    <span className="sr-mark-desc">{m.desc}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <h2 className="sr-auth-title">Welcome Back</h2>
+          </div>
+        </section>
+
+        {/* ---------------- Sign-in sheet ---------------- */}
+        <section className="sr-auth-card">
+          <div className="sr-ruler" aria-hidden="true" />
+
+          <header className="sr-auth-header">
+            <h2 className="sr-auth-title">Welcome back</h2>
             <p className="sr-auth-subtitle">Sign in to your clinical portal</p>
           </header>
 
@@ -189,10 +241,7 @@ export const LoginContainer: React.FC = () => {
                   value={identifier}
                   onChange={(e) => {
                     setIdentifier(e.target.value);
-                    if (displayError) {
-                      setLocalError(null);
-                      clearError();
-                    }
+                    clearErrors();
                   }}
                   autoComplete="username"
                   required
@@ -214,10 +263,7 @@ export const LoginContainer: React.FC = () => {
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    if (displayError) {
-                      setLocalError(null);
-                      clearError();
-                    }
+                    clearErrors();
                   }}
                   autoComplete="current-password"
                   required
@@ -248,7 +294,7 @@ export const LoginContainer: React.FC = () => {
               {isSubmitting ? (
                 <>
                   <span className="sr-spinner" aria-hidden="true" />
-                  <span>Signing In…</span>
+                  <span>Signing in…</span>
                 </>
               ) : (
                 <>
@@ -265,21 +311,19 @@ export const LoginContainer: React.FC = () => {
             <span className="sr-divider-line" />
           </div>
 
-          <button
-            type="button"
-            className="sr-btn sr-btn--ghost"
-            onClick={handleCreateUser}
-          >
+          <button type="button" className="sr-btn sr-btn--ghost" onClick={handleCreateUser}>
             <UserPlus className="w-4 h-4" />
             <span>Create Your Own User</span>
           </button>
 
-          <p className="sr-demo-note">
-            Only for demo purpose
-          </p>
+          <p className="sr-demo-note">Only for demo purpose</p>
 
-        </div>
-      </section>
+          <div className="sr-secure-note">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Secure access for doctors and health workers</span>
+          </div>
+        </section>
+      </main>
     </div>
   );
 };

@@ -60,7 +60,7 @@ export const Sidebar: React.FC = () => {
       {/* Brand Header */}
       <div className="sr-sidebar-brand">
         <img
-          src="/images/screening-refer-logo.png"
+          src="/images/full-logo.png"
           alt="Screen & Refer Logo"
           className="sr-sidebar-logo"
         />
